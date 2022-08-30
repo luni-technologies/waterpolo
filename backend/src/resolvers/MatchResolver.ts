@@ -13,7 +13,9 @@ export class MatchResolver {
 		@Arg('date', () => Date) date: Date
 	): Promise<MatchesOnDate> {
 		const resp = await axios.get(
-			`https://waterpolo.hu/musor/${moment(date).format('YYYY-MM-DD')}`
+			`https://waterpolo.hu/musor/${moment(date)
+				.add(2, 'hours')
+				.format('YYYY-MM-DD')}`
 		)
 		const $ = load(resp.data)
 
