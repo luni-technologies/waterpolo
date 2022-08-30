@@ -59,7 +59,7 @@ export const MatchWidget: React.FC<MatchWidgetProps> = ({ match, grid }) => {
 		: true
 
 	return (
-		<Link href={`/game/${match.id}`} passHref>
+		<Link href={isUpcoming ? '' : `/game/${match.id}`} passHref>
 			<MatchWidgetWrapper grid={grid}>
 				<MatchWidgetTeam align="left">{match.team_home}</MatchWidgetTeam>
 				<MatchWidgetCenterWrapper>
