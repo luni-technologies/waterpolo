@@ -12,7 +12,6 @@ export class MatchResolver {
 	async matchesOnDate(
 		@Arg('date', () => Date) date: Date
 	): Promise<MatchesOnDate> {
-		console.log('matches', date)
 		const resp = await axios.get(
 			`https://waterpolo.hu/musor/${moment(date).format('YYYY-MM-DD')}`
 		)
@@ -47,8 +46,6 @@ export class MatchResolver {
 					})
 			}
 		})
-
-		console.log(data)
 
 		return {
 			date,
