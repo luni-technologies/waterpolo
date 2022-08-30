@@ -1,0 +1,18 @@
+query MatchesOnDate($date: DateTime!) {
+	matchesOnDate(date: $date) {
+		date
+		leagues {
+			id
+			title
+			matches {
+				id
+				date
+				team_home
+				team_away
+				score_home
+				score_away
+				location
+			}
+		}
+	}
+}

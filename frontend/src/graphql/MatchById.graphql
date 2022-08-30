@@ -1,0 +1,35 @@
+query MatchById($id: String!) {
+	matchById(id: $id) {
+		id
+		team_home
+		team_away
+		score_home
+		score_away
+		location
+		date
+		quarters {
+			score_home
+			score_away
+		}
+		events {
+			time {
+				quarter
+				seconds
+			}
+			team
+			player {
+				name
+				number
+			}
+			eventType
+		}
+		lineup_home {
+			name
+			number
+		}
+		lineup_away {
+			name
+			number
+		}
+	}
+}

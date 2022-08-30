@@ -1,0 +1,34 @@
+{
+	"Next Page": {
+		"scope": "typescriptreact",
+		"prefix": "np",
+		"body": [
+			"import type { NextPage } from 'next'",
+			"",
+			"const $1: NextPage = () => {",
+			"\treturn (",
+			"\t\t$2",
+			"\t)",
+			"}",
+			"",
+			"export default $1"
+		]
+	},
+	"React Component": {
+		"scope": "typescriptreact",
+		"prefix": "rc",
+		"body": [
+			"import React from 'react'",
+			"",
+			"interface ${TM_FILENAME_BASE}Props {",
+			"\t$1",
+			"}",
+			"",
+			"export const ${TM_FILENAME_BASE}: React.FC<${TM_FILENAME_BASE}Props> = ({ $2 }) => {",
+			"\treturn (",
+			"\t\t$3",
+			"\t)",
+			"}"
+		]
+	}
+}

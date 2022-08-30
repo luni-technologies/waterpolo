@@ -1,0 +1,6 @@
+query LeagueAll {
+	all {
+		id
+		title
+	}
+}

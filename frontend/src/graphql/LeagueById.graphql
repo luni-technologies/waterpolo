@@ -1,0 +1,37 @@
+query LeagueById($id: String!) {
+	findById(id: $id) {
+		id
+		organiser
+		title
+		season_start
+		season_end
+		matches {
+			id
+			team_home
+			team_away
+			score_home
+			score_away
+			location
+			date
+		}
+		tables {
+			id
+			title
+			rows {
+				position
+				team {
+					id
+					name
+				}
+				played
+				w
+				d
+				l
+				goal_pos
+				goal_neg
+				goal_diff
+				points
+			}
+		}
+	}
+}
