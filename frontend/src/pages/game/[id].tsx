@@ -213,6 +213,7 @@ const Game: NextPage = () => {
 		variables: {
 			id: id as string,
 		},
+		pollInterval: 2000,
 	})
 
 	const goals_home =
