@@ -6,7 +6,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 	usePanelbear('FBdv2Hw7OOx')
 
 	const client = new ApolloClient({
-		uri: process.env.API_URL || 'http://localhost:4000/graphql',
+		uri: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/graphql',
 		cache: new InMemoryCache(),
 	})
 
