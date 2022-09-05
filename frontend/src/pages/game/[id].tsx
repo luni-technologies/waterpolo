@@ -47,6 +47,12 @@ const GameHeader = styled.header`
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
+
+	@media only screen and (max-width: 768px) {
+		flex-direction: column;
+		align-items: center;
+		padding-top: 20px;
+	}
 `
 
 const GameHeaderTeam = styled.h2`
@@ -60,6 +66,12 @@ const GameHeaderTeam = styled.h2`
 	&:not(:first-child) {
 		text-align: right;
 	}
+
+	@media only screen and (max-width: 770px) {
+		text-align: center !important;
+		width: 100%;
+		font-size: 30px;
+	}
 `
 
 const GameHeaderScoreWrapper = styled.div`
@@ -67,6 +79,10 @@ const GameHeaderScoreWrapper = styled.div`
 	flex-direction: column;
 	align-items: center;
 	text-align: center;
+
+	@media only screen and (max-width: 770px) {
+		margin: 20px 0;
+	}
 `
 
 const GameHeaderScore = styled.h3`
@@ -75,6 +91,10 @@ const GameHeaderScore = styled.h3`
 	font-size: 50px;
 	text-transform: uppercase;
 	color: #000000;
+
+	@media only screen and (max-width: 770px) {
+		font-size: 35px;
+	}
 `
 
 const GameHeaderScoreQuarter = styled.span`
@@ -83,12 +103,21 @@ const GameHeaderScoreQuarter = styled.span`
 	font-size: 20px;
 	text-transform: uppercase;
 	color: #6f6f6f;
+
+	@media only screen and (max-width: 770px) {
+		font-size: 15px;
+	}
 `
 
 const GameColumnsWrapper = styled.div`
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
+
+	@media only screen and (max-width: 770px) {
+		flex-direction: column;
+		flex-flow: column-reverse;
+	}
 `
 
 const GameColumn = styled.div`
@@ -102,6 +131,11 @@ const GameColumn = styled.div`
 
 	&:nth-child(2) {
 		width: 25%;
+	}
+
+	@media only screen and (max-width: 770px) {
+		width: 100% !important;
+		margin: 0 !important;
 	}
 `
 
