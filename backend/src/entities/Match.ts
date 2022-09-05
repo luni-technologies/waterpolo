@@ -18,8 +18,8 @@ export class MatchMin {
 	@Field(() => Int)
 	score_away: number
 
-	@Field(() => String)
-	location: string
+	@Field(() => String, { nullable: true })
+	location: string | null
 
 	@Field(() => Date, { nullable: true })
 	date: Date | null
@@ -74,6 +74,9 @@ export class Match extends MatchMin {
 
 	@Field(() => [Event])
 	events: Event[]
+
+	@Field(() => String)
+	league: string
 
 	@Field(() => [Player])
 	lineup_home: Player[]

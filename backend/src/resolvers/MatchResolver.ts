@@ -66,8 +66,33 @@ export class MatchResolver {
 			team_away: $('table.meccs_tabla tr').eq(0).find('th').eq(2).text().trim(),
 			score_home: parseInt($('td.meccs_eredmeny_hazai').text().trim()),
 			score_away: parseInt($('td.meccs_eredmeny_vendeg').text().trim()),
-			location: '',
-			date: new Date(),
+			location:
+				$('table.meccs_tabla tr')
+					.eq(0)
+					.find('th')
+					.eq(1)
+					.html()
+					?.split('<br>')[0]
+					.trim() || null,
+			date: moment(
+				$('table.meccs_tabla tr')
+					.eq(0)
+					.find('th')
+					.eq(1)
+					.html()
+					?.split('<br>')[1]
+					.trim()
+			).isValid()
+				? moment(
+						$('table.meccs_tabla tr')
+							.eq(0)
+							.find('th')
+							.eq(1)
+							.html()
+							?.split('<br>')[1]
+							.trim()
+				  ).toDate()
+				: null,
 			quarters: $('td.meccs_eredmeny_reszlet')
 				.text()
 				.trim()
@@ -78,6 +103,7 @@ export class MatchResolver {
 					score_away: parseInt(x.split('-')[1].trim()),
 				})),
 			events: [],
+			league: $('div.news_top_rounded').text().split('-')[1].trim(),
 			lineup_home: [],
 			lineup_away: [],
 		}
