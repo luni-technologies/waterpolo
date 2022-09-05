@@ -54,9 +54,10 @@ export type Match = {
   date?: Maybe<Scalars['DateTime']>;
   events: Array<Event>;
   id: Scalars['String'];
+  league: Scalars['String'];
   lineup_away: Array<Player>;
   lineup_home: Array<Player>;
-  location: Scalars['String'];
+  location?: Maybe<Scalars['String']>;
   quarters: Array<QuarterScore>;
   score_away: Scalars['Int'];
   score_home: Scalars['Int'];
@@ -68,7 +69,7 @@ export type MatchMin = {
   __typename?: 'MatchMin';
   date?: Maybe<Scalars['DateTime']>;
   id: Scalars['String'];
-  location: Scalars['String'];
+  location?: Maybe<Scalars['String']>;
   score_away: Scalars['Int'];
   score_home: Scalars['Int'];
   team_away: Scalars['String'];
@@ -160,21 +161,21 @@ export type LeagueByIdQueryVariables = Exact<{
 }>;
 
 
-export type LeagueByIdQuery = { __typename?: 'Query', findById: { __typename?: 'League', id: string, organiser?: string | null, title: string, season_start?: any | null, season_end?: any | null, matches: Array<{ __typename?: 'MatchMin', id: string, team_home: string, team_away: string, score_home: number, score_away: number, location: string, date?: any | null }>, tables: Array<{ __typename?: 'Table', id: string, title: string, rows: Array<{ __typename?: 'TableRow', position: number, played: number, w: number, d: number, l: number, goal_pos: number, goal_neg: number, goal_diff: number, points: number, team: { __typename?: 'TeamMin', id: string, name: string } }> }> } };
+export type LeagueByIdQuery = { __typename?: 'Query', findById: { __typename?: 'League', id: string, organiser?: string | null, title: string, season_start?: any | null, season_end?: any | null, matches: Array<{ __typename?: 'MatchMin', id: string, team_home: string, team_away: string, score_home: number, score_away: number, location?: string | null, date?: any | null }>, tables: Array<{ __typename?: 'Table', id: string, title: string, rows: Array<{ __typename?: 'TableRow', position: number, played: number, w: number, d: number, l: number, goal_pos: number, goal_neg: number, goal_diff: number, points: number, team: { __typename?: 'TeamMin', id: string, name: string } }> }> } };
 
 export type MatchByIdQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type MatchByIdQuery = { __typename?: 'Query', matchById: { __typename?: 'Match', id: string, team_home: string, team_away: string, score_home: number, score_away: number, location: string, date?: any | null, quarters: Array<{ __typename?: 'QuarterScore', score_home: number, score_away: number }>, events: Array<{ __typename?: 'Event', team: string, eventType: string, time: { __typename?: 'Time', quarter: string, seconds: number }, player: { __typename?: 'Player', name: string, number: number } }>, lineup_home: Array<{ __typename?: 'Player', name: string, number: number }>, lineup_away: Array<{ __typename?: 'Player', name: string, number: number }> } };
+export type MatchByIdQuery = { __typename?: 'Query', matchById: { __typename?: 'Match', id: string, team_home: string, team_away: string, score_home: number, score_away: number, location?: string | null, date?: any | null, league: string, quarters: Array<{ __typename?: 'QuarterScore', score_home: number, score_away: number }>, events: Array<{ __typename?: 'Event', team: string, eventType: string, time: { __typename?: 'Time', quarter: string, seconds: number }, player: { __typename?: 'Player', name: string, number: number } }>, lineup_home: Array<{ __typename?: 'Player', name: string, number: number }>, lineup_away: Array<{ __typename?: 'Player', name: string, number: number }> } };
 
 export type MatchesOnDateQueryVariables = Exact<{
   date: Scalars['DateTime'];
 }>;
 
 
-export type MatchesOnDateQuery = { __typename?: 'Query', matchesOnDate: { __typename?: 'MatchesOnDate', date: any, leagues: Array<{ __typename?: 'LeagueMid', id: string, title: string, matches: Array<{ __typename?: 'MatchMin', id: string, date?: any | null, team_home: string, team_away: string, score_home: number, score_away: number, location: string }> }> } };
+export type MatchesOnDateQuery = { __typename?: 'Query', matchesOnDate: { __typename?: 'MatchesOnDate', date: any, leagues: Array<{ __typename?: 'LeagueMid', id: string, title: string, matches: Array<{ __typename?: 'MatchMin', id: string, date?: any | null, team_home: string, team_away: string, score_home: number, score_away: number, location?: string | null }> }> } };
 
 
 export const LeagueAllDocument = gql`
@@ -305,6 +306,7 @@ export const MatchByIdDocument = gql`
       }
       eventType
     }
+    league
     lineup_home {
       name
       number

@@ -23,6 +23,7 @@ query MatchById($id: String!) {
 			}
 			eventType
 		}
+		league
 		lineup_home {
 			name
 			number
