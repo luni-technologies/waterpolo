@@ -7,6 +7,11 @@ const PageWrapperDiv = styled.div`
 	min-height: 100vh;
 	padding: 0 30px;
 	margin: 20px 0;
+
+	& ::selection {
+		color: #ffffff;
+		background-color: #0484dc;
+	}
 `
 
 interface PageWrapperProps {
