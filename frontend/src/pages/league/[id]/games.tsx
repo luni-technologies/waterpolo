@@ -3,10 +3,15 @@ import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import { MatchWidgetGrid } from '../../../components/Match/MatchWidgetGrid'
 import { PageWrapper } from '../../../components/PageWrapper'
+import { Spacer } from '../../../components/Spacer'
 import { useLeagueByIdQuery } from '../../../generated/graphql'
 
 const LeagueHeader = styled.header`
 	padding-top: 80px;
+
+	@media only screen and (max-width: 770px) {
+		padding-top: 20px;
+	}
 `
 
 const LeagueSubtitle = styled.h2`
@@ -15,6 +20,10 @@ const LeagueSubtitle = styled.h2`
 	font-size: 20px;
 	text-transform: uppercase;
 	color: #6f6f6f;
+
+	@media only screen and (max-width: 770px) {
+		font-size: 15px;
+	}
 `
 
 const LeagueTitle = styled.h1`
@@ -24,6 +33,11 @@ const LeagueTitle = styled.h1`
 	font-size: 40px;
 	text-transform: uppercase;
 	color: #000000;
+
+	@media only screen and (max-width: 770px) {
+		font-size: 30px;
+		margin: 0;
+	}
 `
 
 const LeagueGames: NextPage = () => {
@@ -45,6 +59,7 @@ const LeagueGames: NextPage = () => {
 						<LeagueSubtitle>{data.findById.organiser}</LeagueSubtitle>
 						<LeagueTitle>{data.findById.title}</LeagueTitle>
 					</LeagueHeader>
+					<Spacer />
 					<MatchWidgetGrid matches={data.findById.matches} />
 				</PageWrapper>
 			)}

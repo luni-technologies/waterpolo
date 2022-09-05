@@ -15,6 +15,10 @@ const MatchWidgetWrapper = styled.a<{ grid?: boolean }>`
 	justify-content: space-between;
 	padding: 0 10px;
 	text-decoration: none;
+
+	@media only screen and (max-width: 770px) {
+		min-width: calc(100vw - 90px);
+	}
 `
 
 const MatchWidgetTeam = styled.a<{ align: 'left' | 'right' }>`

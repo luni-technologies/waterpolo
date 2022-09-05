@@ -37,6 +37,10 @@ const MatchWidgetGridItems = styled.div`
 		);
 	grid-auto-rows: 120px;
 	grid-gap: 20px;
+
+	@media only screen and (max-width: 770px) {
+		grid-template-columns: calc(100vw - 60px);
+	}
 `
 
 interface MatchWidgetGridProps {
