@@ -3,6 +3,7 @@ import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import { PageWrapper } from '../../components/PageWrapper'
+import { Spacer } from '../../components/Spacer'
 import { useMatchByIdQuery } from '../../generated/graphql'
 
 /* https://www.tutorialspoint.com/group-array-by-equal-values-javascript */
@@ -25,12 +26,6 @@ function groupSimilar(arr: Array<any>): Array<any> {
 	).data
 }
 
-const GameSpacer = styled.hr`
-	margin: 40px 0 20px 0;
-	width: 100%;
-	border: 1px solid #000000;
-`
-
 const GameSectionTitle = styled.h3`
 	font-family: 'Roboto Condensed', sans-serif;
 	font-size: 15px;
@@ -47,6 +42,12 @@ const GameHeader = styled.header`
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
+
+	@media only screen and (max-width: 768px) {
+		flex-direction: column;
+		align-items: center;
+		padding-top: 20px;
+	}
 `
 
 const GameHeaderTeam = styled.h2`
@@ -60,6 +61,12 @@ const GameHeaderTeam = styled.h2`
 	&:not(:first-child) {
 		text-align: right;
 	}
+
+	@media only screen and (max-width: 770px) {
+		text-align: center !important;
+		width: 100%;
+		font-size: 30px;
+	}
 `
 
 const GameHeaderScoreWrapper = styled.div`
@@ -67,6 +74,10 @@ const GameHeaderScoreWrapper = styled.div`
 	flex-direction: column;
 	align-items: center;
 	text-align: center;
+
+	@media only screen and (max-width: 770px) {
+		margin: 20px 0;
+	}
 `
 
 const GameHeaderScore = styled.h3`
@@ -75,6 +86,10 @@ const GameHeaderScore = styled.h3`
 	font-size: 50px;
 	text-transform: uppercase;
 	color: #000000;
+
+	@media only screen and (max-width: 770px) {
+		font-size: 35px;
+	}
 `
 
 const GameHeaderScoreQuarter = styled.span`
@@ -83,12 +98,21 @@ const GameHeaderScoreQuarter = styled.span`
 	font-size: 20px;
 	text-transform: uppercase;
 	color: #6f6f6f;
+
+	@media only screen and (max-width: 770px) {
+		font-size: 15px;
+	}
 `
 
 const GameColumnsWrapper = styled.div`
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
+
+	@media only screen and (max-width: 770px) {
+		flex-direction: column;
+		flex-flow: column-reverse;
+	}
 `
 
 const GameColumn = styled.div`
@@ -102,6 +126,11 @@ const GameColumn = styled.div`
 
 	&:nth-child(2) {
 		width: 25%;
+	}
+
+	@media only screen and (max-width: 770px) {
+		width: 100% !important;
+		margin: 0 !important;
 	}
 `
 
@@ -311,7 +340,7 @@ const Game: NextPage = () => {
 						</GameHeaderScoreWrapper>
 						<GameHeaderTeam>{data.matchById.team_away}</GameHeaderTeam>
 					</GameHeader>
-					<GameSpacer />
+					<Spacer />
 					<GameColumnsWrapper>
 						<GameColumn>
 							<GameScorersWrapper>
@@ -331,7 +360,7 @@ const Game: NextPage = () => {
 									</GameScorers>
 								</GameScorersRow>
 							</GameScorersWrapper>
-							<GameSpacer />
+							<Spacer />
 							<GameTimelineWrapper>
 								<GameSectionTitle>Idővonal</GameSectionTitle>
 								<GameTimelineList>
@@ -415,7 +444,7 @@ const Game: NextPage = () => {
 									</GameLineupTable>
 								</GameLineupTableWrapper>
 							</GameLineupWrapper>
-							<GameSpacer />
+							<Spacer />
 							<GameInfoWrapper>
 								<GameSectionTitle>adatok</GameSectionTitle>
 								<GameInfoData>
@@ -437,7 +466,7 @@ const Game: NextPage = () => {
 									<GameInfoDataValue>{data.matchById.league}</GameInfoDataValue>
 								</GameInfoData>
 							</GameInfoWrapper>
-							<GameSpacer />
+							<Spacer />
 						</GameColumn>
 					</GameColumnsWrapper>
 				</PageWrapper>

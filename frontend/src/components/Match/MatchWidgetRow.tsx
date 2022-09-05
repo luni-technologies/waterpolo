@@ -6,6 +6,10 @@ import { MatchWidget } from './MatchWidget'
 
 const MatchWidgetRowWrapper = styled.div`
 	margin-top: 50px;
+
+	@media only screen and (max-width: 770px) {
+		max-width: calc(100vw - 60px);
+	}
 `
 
 const MatchWidgetRowHeader = styled.header`
@@ -38,6 +42,11 @@ const MatchWidgetRowItems = styled.div`
 
 	& > :not(:last-child) {
 		margin-right: 20px;
+	}
+
+	@media only screen and (max-width: 770px) {
+		overflow-x: scroll;
+		max-width: calc(100vw - 60px);
 	}
 `
 
