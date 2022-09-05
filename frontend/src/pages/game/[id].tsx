@@ -95,8 +95,12 @@ const GameColumn = styled.div`
 	display: flex;
 	flex-direction: column;
 
-	&:not(:first-child) {
-		margin-left: 30px;
+	&:nth-child(1) {
+		margin-right: 30px;
+		width: 75%;
+	}
+
+	&:nth-child(2) {
 		width: 25%;
 	}
 `
