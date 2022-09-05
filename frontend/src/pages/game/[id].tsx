@@ -3,6 +3,7 @@ import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import { PageWrapper } from '../../components/PageWrapper'
+import { Spacer } from '../../components/Spacer'
 import { useMatchByIdQuery } from '../../generated/graphql'
 
 /* https://www.tutorialspoint.com/group-array-by-equal-values-javascript */
@@ -24,12 +25,6 @@ function groupSimilar(arr: Array<any>): Array<any> {
 		}
 	).data
 }
-
-const GameSpacer = styled.hr`
-	margin: 40px 0 20px 0;
-	width: 100%;
-	border: 1px solid #000000;
-`
 
 const GameSectionTitle = styled.h3`
 	font-family: 'Roboto Condensed', sans-serif;
@@ -345,7 +340,7 @@ const Game: NextPage = () => {
 						</GameHeaderScoreWrapper>
 						<GameHeaderTeam>{data.matchById.team_away}</GameHeaderTeam>
 					</GameHeader>
-					<GameSpacer />
+					<Spacer />
 					<GameColumnsWrapper>
 						<GameColumn>
 							<GameScorersWrapper>
@@ -365,7 +360,7 @@ const Game: NextPage = () => {
 									</GameScorers>
 								</GameScorersRow>
 							</GameScorersWrapper>
-							<GameSpacer />
+							<Spacer />
 							<GameTimelineWrapper>
 								<GameSectionTitle>Idővonal</GameSectionTitle>
 								<GameTimelineList>
@@ -449,7 +444,7 @@ const Game: NextPage = () => {
 									</GameLineupTable>
 								</GameLineupTableWrapper>
 							</GameLineupWrapper>
-							<GameSpacer />
+							<Spacer />
 							<GameInfoWrapper>
 								<GameSectionTitle>adatok</GameSectionTitle>
 								<GameInfoData>
@@ -471,7 +466,7 @@ const Game: NextPage = () => {
 									<GameInfoDataValue>{data.matchById.league}</GameInfoDataValue>
 								</GameInfoData>
 							</GameInfoWrapper>
-							<GameSpacer />
+							<Spacer />
 						</GameColumn>
 					</GameColumnsWrapper>
 				</PageWrapper>
