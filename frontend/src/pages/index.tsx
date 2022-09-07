@@ -123,7 +123,7 @@ const Home: NextPage = () => {
 							<MatchWidgetGrid key={x.id} title={x.title} matches={x.matches} />
 						))
 					) : (
-						<NoGamesText>no matches</NoGamesText>
+						<NoGamesText>nincsenek meccsek</NoGamesText>
 					)}
 				</>
 			)}
