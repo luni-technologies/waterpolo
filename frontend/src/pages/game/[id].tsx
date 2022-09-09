@@ -343,108 +343,121 @@ const Game: NextPage = () => {
 					<Spacer />
 					<GameColumnsWrapper>
 						<GameColumn>
-							<GameScorersWrapper>
-								<GameSectionTitle>Góllövők</GameSectionTitle>
-								<GameScorersRow>
-									<GameScorers>
-										{groupSimilar(goals_home)
-											.sort((a, b) => b[1] - a[1])
-											.map((x) => `${x[0]} ${x[1]}x`)
-											.join(', ')}
-									</GameScorers>
-									<GameScorers>
-										{groupSimilar(goals_away)
-											.sort((a, b) => b[1] - a[1])
-											.map((x) => `${x[0]} ${x[1]}x`)
-											.join(', ')}
-									</GameScorers>
-								</GameScorersRow>
-							</GameScorersWrapper>
-							<Spacer />
-							<GameTimelineWrapper>
-								<GameSectionTitle>Idővonal</GameSectionTitle>
-								<GameTimelineList>
-									{eventsFiltered.map((x, i) => {
-										if (x.eventType.toLowerCase().includes('vége')) {
-											return (
-												<GameTimelineListItem>
-													<GameTimelineListItemBold>
-														{x.time.quarter} negyed vége
-													</GameTimelineListItemBold>
-												</GameTimelineListItem>
-											)
-										} else {
-											return (
-												<GameTimelineListItem key={i}>
-													<GameTimelineListItemText
-														bold={x.team === data.matchById.team_home}
-													>
-														{x.team === data.matchById.team_home
-															? x.player.name
-															: x.eventType}
-													</GameTimelineListItemText>
-													<GameTimelineListItemTime>
-														{moment.utc(x.time.seconds * 1000).format('mm:ss')}
-													</GameTimelineListItemTime>
-													<GameTimelineListItemText
-														bold={x.team === data.matchById.team_away}
-													>
-														{x.team === data.matchById.team_away
-															? x.player.name
-															: x.eventType}
-													</GameTimelineListItemText>
-												</GameTimelineListItem>
-											)
-										}
-									})}
-								</GameTimelineList>
-							</GameTimelineWrapper>
+							{goals_home.length > 0 && goals_away.length > 0 && (
+								<GameScorersWrapper>
+									<GameSectionTitle>Góllövők</GameSectionTitle>
+									<GameScorersRow>
+										<GameScorers>
+											{groupSimilar(goals_home)
+												.sort((a, b) => b[1] - a[1])
+												.map((x) => `${x[0]} ${x[1]}x`)
+												.join(', ')}
+										</GameScorers>
+										<GameScorers>
+											{groupSimilar(goals_away)
+												.sort((a, b) => b[1] - a[1])
+												.map((x) => `${x[0]} ${x[1]}x`)
+												.join(', ')}
+										</GameScorers>
+									</GameScorersRow>
+								</GameScorersWrapper>
+							)}
+							{eventsFiltered.length > 0 && (
+								<>
+									<Spacer />
+									<GameTimelineWrapper>
+										<GameSectionTitle>Idővonal</GameSectionTitle>
+										<GameTimelineList>
+											{eventsFiltered.map((x, i) => {
+												if (x.eventType.toLowerCase().includes('vége')) {
+													return (
+														<GameTimelineListItem>
+															<GameTimelineListItemBold>
+																{x.time.quarter} negyed vége
+															</GameTimelineListItemBold>
+														</GameTimelineListItem>
+													)
+												} else {
+													return (
+														<GameTimelineListItem key={i}>
+															<GameTimelineListItemText
+																bold={x.team === data.matchById.team_home}
+															>
+																{x.team === data.matchById.team_home
+																	? x.player.name
+																	: x.eventType}
+															</GameTimelineListItemText>
+															<GameTimelineListItemTime>
+																{moment
+																	.utc(x.time.seconds * 1000)
+																	.format('mm:ss')}
+															</GameTimelineListItemTime>
+															<GameTimelineListItemText
+																bold={x.team === data.matchById.team_away}
+															>
+																{x.team === data.matchById.team_away
+																	? x.player.name
+																	: x.eventType}
+															</GameTimelineListItemText>
+														</GameTimelineListItem>
+													)
+												}
+											})}
+										</GameTimelineList>
+									</GameTimelineWrapper>
+								</>
+							)}
 						</GameColumn>
 						<GameColumn>
-							<GameLineupWrapper>
-								<GameSectionTitle>Játékosok</GameSectionTitle>
-								<GameLineupTableWrapper>
-									<GameLineupTableTitle>
-										{data.matchById.team_home}
-									</GameLineupTableTitle>
-									<GameLineupTable>
-										<tbody>
-											{data.matchById.lineup_home.map((x, i) => (
-												<GameLineupTableRow
-													key={i}
-													highlight={x.number === 1 || x.number === 14}
-												>
-													<GameLineupTableDataNumber>
-														{x.number}
-													</GameLineupTableDataNumber>
-													<td>{x.name}</td>
-												</GameLineupTableRow>
-											))}
-										</tbody>
-									</GameLineupTable>
-								</GameLineupTableWrapper>
-								<GameLineupTableWrapper>
-									<GameLineupTableTitle>
-										{data.matchById.team_away}
-									</GameLineupTableTitle>
-									<GameLineupTable>
-										<tbody>
-											{data.matchById.lineup_away.map((x, i) => (
-												<GameLineupTableRow
-													key={i}
-													highlight={x.number === 1 || x.number === 14}
-												>
-													<GameLineupTableDataNumber>
-														{x.number}
-													</GameLineupTableDataNumber>
-													<td>{x.name}</td>
-												</GameLineupTableRow>
-											))}
-										</tbody>
-									</GameLineupTable>
-								</GameLineupTableWrapper>
-							</GameLineupWrapper>
-							<Spacer />
+							{data.matchById.lineup_home.length > 0 &&
+								data.matchById.lineup_away.length > 0 && (
+									<>
+										<GameLineupWrapper>
+											<GameSectionTitle>Játékosok</GameSectionTitle>
+											<GameLineupTableWrapper>
+												<GameLineupTableTitle>
+													{data.matchById.team_home}
+												</GameLineupTableTitle>
+												<GameLineupTable>
+													<tbody>
+														{data.matchById.lineup_home.map((x, i) => (
+															<GameLineupTableRow
+																key={i}
+																highlight={x.number === 1 || x.number === 14}
+															>
+																<GameLineupTableDataNumber>
+																	{x.number}
+																</GameLineupTableDataNumber>
+																<td>{x.name}</td>
+															</GameLineupTableRow>
+														))}
+													</tbody>
+												</GameLineupTable>
+											</GameLineupTableWrapper>
+											<GameLineupTableWrapper>
+												<GameLineupTableTitle>
+													{data.matchById.team_away}
+												</GameLineupTableTitle>
+												<GameLineupTable>
+													<tbody>
+														{data.matchById.lineup_away.map((x, i) => (
+															<GameLineupTableRow
+																key={i}
+																highlight={x.number === 1 || x.number === 14}
+															>
+																<GameLineupTableDataNumber>
+																	{x.number}
+																</GameLineupTableDataNumber>
+																<td>{x.name}</td>
+															</GameLineupTableRow>
+														))}
+													</tbody>
+												</GameLineupTable>
+											</GameLineupTableWrapper>
+										</GameLineupWrapper>
+										<Spacer />
+									</>
+								)}
 							<GameInfoWrapper>
 								<GameSectionTitle>adatok</GameSectionTitle>
 								<GameInfoData>
