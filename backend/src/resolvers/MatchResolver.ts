@@ -64,8 +64,8 @@ export class MatchResolver {
 			id,
 			team_home: $('table.meccs_tabla tr').eq(0).find('th').eq(0).text().trim(),
 			team_away: $('table.meccs_tabla tr').eq(0).find('th').eq(2).text().trim(),
-			score_home: parseInt($('td.meccs_eredmeny_hazai').text().trim()),
-			score_away: parseInt($('td.meccs_eredmeny_vendeg').text().trim()),
+			score_home: parseInt($('td.meccs_eredmeny_hazai').text().trim() || '0'),
+			score_away: parseInt($('td.meccs_eredmeny_vendeg').text().trim() || '0'),
 			location:
 				$('table.meccs_tabla tr')
 					.eq(0)
@@ -74,26 +74,24 @@ export class MatchResolver {
 					.html()
 					?.split('<br>')[0]
 					.trim() || null,
-			date: moment(
+			date: parseDate(
 				$('table.meccs_tabla tr')
 					.eq(0)
 					.find('th')
 					.eq(1)
 					.html()
 					?.split('<br>')[1]
-					.trim()
-			).isValid()
-				? moment(
-						$('table.meccs_tabla tr')
-							.eq(0)
-							.find('th')
-							.eq(1)
-							.html()
-							?.split('<br>')[1]
-							.trim()
-				  ).toDate()
-				: null,
-			quarters: $('td.meccs_eredmeny_reszlet')
+					.trim()!
+			),
+			quarters: [],
+			events: [],
+			league: $('div.news_top_rounded').text().split('-')[1].trim(),
+			lineup_home: [],
+			lineup_away: [],
+		}
+
+		try {
+			data.quarters = $('td.meccs_eredmeny_reszlet')
 				.text()
 				.trim()
 				.replace(/[\(\)]/g, '')
@@ -101,11 +99,9 @@ export class MatchResolver {
 				.map((x) => ({
 					score_home: parseInt(x.split('-')[0].trim()),
 					score_away: parseInt(x.split('-')[1].trim()),
-				})),
-			events: [],
-			league: $('div.news_top_rounded').text().split('-')[1].trim(),
-			lineup_home: [],
-			lineup_away: [],
+				}))
+		} catch (e) {
+			data.quarters = []
 		}
 
 		$('div.n_tab')

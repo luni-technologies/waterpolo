@@ -44,7 +44,6 @@ export class LeagueResolver {
 			.find('tr.gamerow')
 			.map((_, el) => {
 				if ($(el).hasClass('team_standings_table_header')) return
-				console.log(parseDate($(el).find('td').eq(1).text().trim()))
 				matches.push({
 					id: $(el).find('td').eq(4).find('a').attr('href')!.split('/')[2],
 					team_home: $(el).find('td').eq(2).find('a').text().trim(),
