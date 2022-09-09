@@ -8,7 +8,9 @@ export function parseDate(date: string): Date | null {
 	let dateArr = date.replace(/\./g, '').split(' ')
 	dateArr[1] = (
 		months.findIndex((x) => x.toLowerCase() === dateArr[1]) + 1 ||
-		monthsShort.findIndex((x) => x.toLowerCase() === dateArr[1]) + 1
+		monthsShort.findIndex(
+			(x) => x.toLowerCase().replace(/\./g, '') === dateArr[1]
+		) + 1
 	).toString()
 
 	dateArr[1].length === 1 ? (dateArr[1] = `0${dateArr[1]}`) : null
