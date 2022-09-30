@@ -6,26 +6,6 @@ import { PageWrapper } from '../../components/PageWrapper'
 import { Spacer } from '../../components/Spacer'
 import { useMatchByIdQuery } from '../../generated/graphql'
 
-/* https://www.tutorialspoint.com/group-array-by-equal-values-javascript */
-function groupSimilar(arr: Array<any>): Array<any> {
-	return arr.reduce(
-		(acc, val) => {
-			const { data, map } = acc
-			const ind = map.get(val)
-			if (map.has(val)) {
-				data[ind][1]++
-			} else {
-				map.set(val, data.push([val, 1]) - 1)
-			}
-			return { data, map }
-		},
-		{
-			data: [],
-			map: new Map(),
-		}
-	).data
-}
-
 const GameSectionTitle = styled.h3`
 	font-family: 'Roboto Condensed', sans-serif;
 	font-size: 15px;
@@ -282,30 +262,6 @@ const Game: NextPage = () => {
 		pollInterval: 2000,
 	})
 
-	const goals_home =
-		loading || !data
-			? []
-			: data.matchById.events
-					.filter(
-						(x) =>
-							x.eventType.toLowerCase().includes('gól') &&
-							!x.eventType.toLowerCase().includes('gólpassz') &&
-							x.team === data.matchById.team_home
-					)
-					.map((y) => y.player.name)
-
-	const goals_away =
-		loading || !data
-			? []
-			: data.matchById.events
-					.filter(
-						(x) =>
-							x.eventType.toLowerCase().includes('gól') &&
-							!x.eventType.toLowerCase().includes('gólpassz') &&
-							x.team === data.matchById.team_away
-					)
-					.map((y) => y.player.name)
-
 	const crucialEvents = ['gól', 'labdaelhozás', 'büntetődobás', 'vége']
 	const eventsFiltered =
 		loading || !data
@@ -343,25 +299,24 @@ const Game: NextPage = () => {
 					<Spacer />
 					<GameColumnsWrapper>
 						<GameColumn>
-							{goals_home.length > 0 && goals_away.length > 0 && (
-								<GameScorersWrapper>
-									<GameSectionTitle>Góllövők</GameSectionTitle>
-									<GameScorersRow>
-										<GameScorers>
-											{groupSimilar(goals_home)
-												.sort((a, b) => b[1] - a[1])
-												.map((x) => `${x[0]} ${x[1]}x`)
-												.join(', ')}
-										</GameScorers>
-										<GameScorers>
-											{groupSimilar(goals_away)
-												.sort((a, b) => b[1] - a[1])
-												.map((x) => `${x[0]} ${x[1]}x`)
-												.join(', ')}
-										</GameScorers>
-									</GameScorersRow>
-								</GameScorersWrapper>
-							)}
+							{data.matchById.goalscorers_home.length > 0 &&
+								data.matchById.goalscorers_away.length > 0 && (
+									<GameScorersWrapper>
+										<GameSectionTitle>Góllövők</GameSectionTitle>
+										<GameScorersRow>
+											<GameScorers>
+												{data.matchById.goalscorers_home
+													.map((x) => `${x.name} ${x.amount}x`)
+													.join(', ')}
+											</GameScorers>
+											<GameScorers>
+												{data.matchById.goalscorers_away
+													.map((x) => `${x.name} ${x.amount}x`)
+													.join(', ')}
+											</GameScorers>
+										</GameScorersRow>
+									</GameScorersWrapper>
+								)}
 							{eventsFiltered.length > 0 && (
 								<>
 									<Spacer />

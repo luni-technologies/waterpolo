@@ -68,6 +68,15 @@ export class QuarterScore {
 }
 
 @ObjectType()
+export class GoalScorer {
+	@Field(() => String)
+	name: number
+
+	@Field(() => Int)
+	amount: number
+}
+
+@ObjectType()
 export class Match extends MatchMin {
 	@Field(() => [QuarterScore])
 	quarters: QuarterScore[]
@@ -83,6 +92,12 @@ export class Match extends MatchMin {
 
 	@Field(() => [Player])
 	lineup_away: Player[]
+
+	@Field(() => [GoalScorer])
+	goalscorers_home: GoalScorer[]
+
+	@Field(() => [GoalScorer])
+	goalscorers_away: GoalScorer[]
 }
 
 @ObjectType()

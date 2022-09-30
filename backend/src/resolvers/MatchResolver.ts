@@ -6,6 +6,26 @@ import { LeagueMid } from '../entities/League'
 import { Match, MatchesOnDate } from '../entities/Match'
 import { parseDate } from '../utils/parseDate'
 
+/* https://www.tutorialspoint.com/group-array-by-equal-values-javascript */
+function groupSimilar(arr: Array<any>): Array<any> {
+	return arr.reduce(
+		(acc, val) => {
+			const { data, map } = acc
+			const ind = map.get(val)
+			if (map.has(val)) {
+				data[ind][1]++
+			} else {
+				map.set(val, data.push([val, 1]) - 1)
+			}
+			return { data, map }
+		},
+		{
+			data: [],
+			map: new Map(),
+		}
+	).data
+}
+
 @Resolver()
 export class MatchResolver {
 	@Query(() => MatchesOnDate)
@@ -88,6 +108,8 @@ export class MatchResolver {
 			league: $('div.news_top_rounded').text().split('-')[1].trim(),
 			lineup_home: [],
 			lineup_away: [],
+			goalscorers_home: [],
+			goalscorers_away: [],
 		}
 
 		try {
@@ -182,6 +204,34 @@ export class MatchResolver {
 					eventType: $(el).find('td').eq(4).text().trim(),
 				})
 			)
+
+		const homeGoalEvents = data.events
+			.filter(
+				(x) =>
+					x.eventType.toLowerCase().includes('gól') &&
+					!x.eventType.toLowerCase().includes('gólpassz') &&
+					x.team === data.team_home
+			)
+			.map((y) => y.player.name)
+		const homeGroupedGoals = groupSimilar(homeGoalEvents)
+			.sort((a, b) => b[1] - a[1])
+			.map((x) => ({ name: x[0], amount: x[1] }))
+
+		data.goalscorers_home = homeGroupedGoals
+
+		const awayGoalEvents = data.events
+			.filter(
+				(x) =>
+					x.eventType.toLowerCase().includes('gól') &&
+					!x.eventType.toLowerCase().includes('gólpassz') &&
+					x.team === data.team_away
+			)
+			.map((y) => y.player.name)
+		const awayGroupedGoals = groupSimilar(awayGoalEvents)
+			.sort((a, b) => b[1] - a[1])
+			.map((x) => ({ name: x[0], amount: x[1] }))
+
+		data.goalscorers_away = awayGroupedGoals
 
 		return data
 	}

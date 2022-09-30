@@ -32,5 +32,13 @@ query MatchById($id: String!) {
 			name
 			number
 		}
+		goalscorers_home {
+			name
+			amount
+		}
+		goalscorers_away {
+			name
+			amount
+		}
 	}
 }
