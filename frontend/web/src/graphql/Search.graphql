@@ -1,0 +1,10 @@
+query Search($query: String!) {
+	search(query: $query) {
+		query
+		leagues {
+			id
+			title
+		}
+		players
+	}
+}
