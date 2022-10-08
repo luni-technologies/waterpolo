@@ -9,9 +9,14 @@ import 'moment/locale/hu'
 import { useState } from 'react'
 
 const DateSelectorWrapper = styled.div`
+	position: fixed;
+	bottom: 0;
+	left: 0;
 	max-width: 100%;
 	height: 60px;
-	border-bottom: 2px solid #000000;
+	background-color: #ffffff;
+	border-top: 2px solid #000000;
+	padding: 0 20px;
 `
 
 const DateSelectorList = styled.div`

@@ -7,6 +7,7 @@ import { buildSchema } from 'type-graphql'
 import { HelloResolver } from './resolvers/HelloResolver'
 import { LeagueResolver } from './resolvers/LeagueResolver'
 import { MatchResolver } from './resolvers/MatchResolver'
+import { SearchResolver } from './resolvers/SearchResolver'
 import { Context } from './types/Context'
 
 const main = async () => {
@@ -16,7 +17,7 @@ const main = async () => {
 
 	const apolloServer = new ApolloServer({
 		schema: await buildSchema({
-			resolvers: [HelloResolver, LeagueResolver, MatchResolver],
+			resolvers: [HelloResolver, LeagueResolver, MatchResolver, SearchResolver],
 			validate: true,
 		}),
 		context: ({ req, res }: Context) => ({ req, res }),

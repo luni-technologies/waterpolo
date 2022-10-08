@@ -109,6 +109,7 @@ export type Query = {
   hello: Scalars['String'];
   matchById: Match;
   matchesOnDate: MatchesOnDate;
+  search: SearchResult;
 };
 
 
@@ -124,6 +125,18 @@ export type QueryMatchByIdArgs = {
 
 export type QueryMatchesOnDateArgs = {
   date: Scalars['DateTime'];
+};
+
+
+export type QuerySearchArgs = {
+  query: Scalars['String'];
+};
+
+export type SearchResult = {
+  __typename?: 'SearchResult';
+  leagues: Array<LeagueMin>;
+  players: Array<Scalars['String']>;
+  query: Scalars['String'];
 };
 
 export type Table = {
@@ -184,6 +197,13 @@ export type MatchesOnDateQueryVariables = Exact<{
 
 
 export type MatchesOnDateQuery = { __typename?: 'Query', matchesOnDate: { __typename?: 'MatchesOnDate', date: any, leagues: Array<{ __typename?: 'LeagueMid', id: string, title: string, matches: Array<{ __typename?: 'MatchMin', id: string, date?: any | null, team_home: string, team_away: string, score_home: number, score_away: number, location?: string | null }> }> } };
+
+export type SearchQueryVariables = Exact<{
+  query: Scalars['String'];
+}>;
+
+
+export type SearchQuery = { __typename?: 'Query', search: { __typename?: 'SearchResult', query: string, players: Array<string>, leagues: Array<{ __typename?: 'LeagueMin', id: string, title: string }> } };
 
 
 export const LeagueAllDocument = gql`
@@ -410,3 +430,43 @@ export function useMatchesOnDateLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type MatchesOnDateQueryHookResult = ReturnType<typeof useMatchesOnDateQuery>;
 export type MatchesOnDateLazyQueryHookResult = ReturnType<typeof useMatchesOnDateLazyQuery>;
 export type MatchesOnDateQueryResult = Apollo.QueryResult<MatchesOnDateQuery, MatchesOnDateQueryVariables>;
+export const SearchDocument = gql`
+    query Search($query: String!) {
+  search(query: $query) {
+    query
+    leagues {
+      id
+      title
+    }
+    players
+  }
+}
+    `;
+
+/**
+ * __useSearchQuery__
+ *
+ * To run a query within a React component, call `useSearchQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchQuery({
+ *   variables: {
+ *      query: // value for 'query'
+ *   },
+ * });
+ */
+export function useSearchQuery(baseOptions: Apollo.QueryHookOptions<SearchQuery, SearchQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchQuery, SearchQueryVariables>(SearchDocument, options);
+      }
+export function useSearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchQuery, SearchQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchQuery, SearchQueryVariables>(SearchDocument, options);
+        }
+export type SearchQueryHookResult = ReturnType<typeof useSearchQuery>;
+export type SearchLazyQueryHookResult = ReturnType<typeof useSearchLazyQuery>;
+export type SearchQueryResult = Apollo.QueryResult<SearchQuery, SearchQueryVariables>;
