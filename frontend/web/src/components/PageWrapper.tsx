@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import React from 'react'
 import styled from 'styled-components'
+import { Navbar } from './Navbar'
 
 const PageWrapperDiv = styled.div`
 	width: 100%;
@@ -27,6 +28,7 @@ export const PageWrapper: React.FC<PageWrapperProps> = ({
 			<Head>
 				<title>{title}</title>
 			</Head>
+			<Navbar />
 			{children}
 		</PageWrapperDiv>
 	)
