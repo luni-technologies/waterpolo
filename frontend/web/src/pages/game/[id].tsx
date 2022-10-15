@@ -376,10 +376,7 @@ const Game: NextPage = () => {
 												<GameLineupTable>
 													<tbody>
 														{data.matchById.lineup_home.map((x, i) => (
-															<GameLineupTableRow
-																key={i}
-																highlight={x.number === 1 || x.number === 14}
-															>
+															<GameLineupTableRow key={i} highlight={false}>
 																<GameLineupTableDataNumber>
 																	{x.number}
 																</GameLineupTableDataNumber>
