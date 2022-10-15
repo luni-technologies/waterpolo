@@ -17,7 +17,7 @@ const GameSectionTitle = styled.h3`
 `
 
 const GameHeader = styled.header`
-	padding-top: 80px;
+	padding-top: 120px;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
