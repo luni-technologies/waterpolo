@@ -55,6 +55,10 @@ const DateSelectorDate = styled.span<{ active: boolean }>`
 	}
 `
 
+const MatchWidgetGridWrapper = styled.div`
+	padding-bottom: 60px;
+`
+
 const NoGamesText = styled.span`
 	position: absolute;
 	top: 50%;
@@ -122,7 +126,7 @@ const Home: NextPage = () => {
 			{loading || !data ? (
 				<span>loading...</span>
 			) : (
-				<>
+				<MatchWidgetGridWrapper>
 					{data.matchesOnDate.leagues.length > 0 ? (
 						data.matchesOnDate.leagues.map((x) => (
 							<MatchWidgetGrid key={x.id} title={x.title} matches={x.matches} />
@@ -130,7 +134,7 @@ const Home: NextPage = () => {
 					) : (
 						<NoGamesText>nincsenek meccsek</NoGamesText>
 					)}
-				</>
+				</MatchWidgetGridWrapper>
 			)}
 		</PageWrapper>
 	)
