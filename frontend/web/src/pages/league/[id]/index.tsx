@@ -11,8 +11,8 @@ import { useLeagueByIdQuery } from '../../../generated/graphql'
 const LeagueHeader = styled.header`
 	padding-top: 80px;
 
-	@media only screen and (max-width: 770px) {
-		padding-top: 20px;
+	@media only screen and (max-width: 768px) {
+		padding-top: 60px;
 	}
 `
 
@@ -23,7 +23,7 @@ const LeagueSubtitle = styled.h2`
 	text-transform: uppercase;
 	color: #6f6f6f;
 
-	@media only screen and (max-width: 770px) {
+	@media only screen and (max-width: 768px) {
 		font-size: 15px;
 	}
 `
@@ -36,7 +36,7 @@ const LeagueTitle = styled.h1`
 	text-transform: uppercase;
 	color: #000000;
 
-	@media only screen and (max-width: 770px) {
+	@media only screen and (max-width: 768px) {
 		font-size: 30px;
 		margin: 0;
 	}
