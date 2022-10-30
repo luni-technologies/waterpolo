@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { PageWrapper } from '../../components/PageWrapper'
 import { Spacer } from '../../components/Spacer'
 import { useMatchByIdQuery } from '../../generated/graphql'
+import { createCalendarEvent } from '../../utils/createCalendarEvent'
 
 const GameSectionTitle = styled.h3`
 	font-family: 'Roboto Condensed', sans-serif;
@@ -247,6 +248,19 @@ const GameInfoDataTitle = styled.h6`
 	font-weight: 700;
 `
 
+const GameInfoDataLink = styled.a`
+	font-family: 'Roboto Condensed', sans-serif;
+	font-size: 13px;
+	text-transform: uppercase;
+	font-weight: 700;
+
+	&:hover {
+		cursor: pointer;
+		color: #ffffff;
+		background-color: #000000;
+	}
+`
+
 const GameInfoDataValue = styled.p`
 	font-family: 'Roboto Condensed', sans-serif;
 	font-size: 13px;
@@ -429,6 +443,28 @@ const Game: NextPage = () => {
 								</GameInfoData>
 							</GameInfoWrapper>
 							<Spacer />
+							<GameInfoWrapper>
+								<GameInfoData>
+									<GameInfoDataLink
+										onClick={() => {
+											createCalendarEvent({
+												title: `${data.matchById.team_home} - ${data.matchById.team_away}`,
+												start: moment(data.matchById.date).toDate(),
+												end: moment(data.matchById.date)
+													.add(1, 'hours')
+													.toDate(),
+												location:
+													data.matchById.location === null
+														? undefined
+														: data.matchById.location,
+											}).download()
+										}}
+										style={{}}
+									>
+										naptárhoz adás
+									</GameInfoDataLink>
+								</GameInfoData>
+							</GameInfoWrapper>
 						</GameColumn>
 					</GameColumnsWrapper>
 				</PageWrapper>
