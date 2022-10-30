@@ -229,19 +229,20 @@ const GameLineupTableDataNumber = styled.td`
 const GameInfoWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-
-	& :not(:last-child) {
-		margin-bottom: 0px;
-	}
 `
 
 const GameInfoData = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
+
+	&:not(:last-child) {
+		margin-bottom: 20px;
+	}
 `
 
 const GameInfoDataTitle = styled.h6`
+	margin: 0;
 	font-family: 'Roboto Condensed', sans-serif;
 	font-size: 13px;
 	text-transform: uppercase;
@@ -441,9 +442,6 @@ const Game: NextPage = () => {
 									<GameInfoDataTitle>bajonkság</GameInfoDataTitle>
 									<GameInfoDataValue>{data.matchById.league}</GameInfoDataValue>
 								</GameInfoData>
-							</GameInfoWrapper>
-							<Spacer />
-							<GameInfoWrapper>
 								<GameInfoData>
 									<GameInfoDataLink
 										onClick={() => {
@@ -465,6 +463,7 @@ const Game: NextPage = () => {
 									</GameInfoDataLink>
 								</GameInfoData>
 							</GameInfoWrapper>
+							<Spacer />
 						</GameColumn>
 					</GameColumnsWrapper>
 				</PageWrapper>
