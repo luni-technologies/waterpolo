@@ -16,7 +16,7 @@ export function parseDate(date: string): Date | null {
 	dateArr[1].length === 1 ? (dateArr[1] = `0${dateArr[1]}`) : null
 
 	let m = moment.utc(
-		`${dateArr[0]}-${dateArr[1]}-${dateArr[2]}T${dateArr[3]}:00+02:00`
+		`${dateArr[0]}-${dateArr[1]}-${dateArr[2]}T${dateArr[3]}:00+01:00`
 	)
 	return m.isValid() ? m.toDate() : null
 }
