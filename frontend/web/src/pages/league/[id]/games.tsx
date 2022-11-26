@@ -10,7 +10,7 @@ const LeagueHeader = styled.header`
 	padding-top: 80px;
 
 	@media only screen and (max-width: 770px) {
-		padding-top: 20px;
+		padding-top: 60px;
 	}
 `
 

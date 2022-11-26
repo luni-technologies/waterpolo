@@ -56,12 +56,11 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
 					<Link href={'/'} passHref>
 						<NavLink>meccsek</NavLink>
 					</Link>
-				</NavLinkGroup>
-				<NavLinkGroup>
-					<Link href={'/search'} passHref>
-						<NavLink>keresés</NavLink>
+					<Link href={'/leagues/'} passHref>
+						<NavLink>bajnokságok</NavLink>
 					</Link>
 				</NavLinkGroup>
+				<NavLinkGroup></NavLinkGroup>
 			</NavContent>
 		</Nav>
 	)
