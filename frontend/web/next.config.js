@@ -4,6 +4,10 @@ const nextConfig = {
 	compiler: {
 		styledComponents: true,
 	},
+	images: {
+		loader: 'imgix',
+		path: '/',
+	},
 }
 
 module.exports = nextConfig
