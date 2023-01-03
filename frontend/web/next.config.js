@@ -5,8 +5,8 @@ const nextConfig = {
 		styledComponents: true,
 	},
 	images: {
-		loader: 'imgix',
-		path: '/',
+		loader: 'akamai',
+		path: '',
 	},
 }
 
