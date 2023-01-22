@@ -5,7 +5,7 @@ export function parseDate(date: string): Date | null {
 	moment.locale('hu')
 	const months = moment.localeData().months()
 	const monthsShort = moment.localeData().monthsShort()
-	date = date.replace('febr', 'feb')
+	date = date.replace('febr.', 'feb.')
 	let dateArr = date.replace(/\./g, '').split(' ')
 	dateArr[1] = (
 		months.findIndex((x) => x.toLowerCase() === dateArr[1]) + 1 ||
