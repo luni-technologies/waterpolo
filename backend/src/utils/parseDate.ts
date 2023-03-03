@@ -21,6 +21,5 @@ export function parseDate(date: string): Date | null {
 			moment().utcOffset() / 60
 		}:00`
 	)
-	console.log(m.toDate(), dateArr, moment().utcOffset())
 	return m.isValid() ? m.toDate() : null
 }
