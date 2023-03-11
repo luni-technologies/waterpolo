@@ -1,4 +1,4 @@
-import moment from 'moment'
+import moment from 'moment-timezone'
 import 'moment/locale/hu'
 
 export function parseDate(date: string): Date | null {
@@ -16,10 +16,9 @@ export function parseDate(date: string): Date | null {
 
 	dateArr[1].length === 1 ? (dateArr[1] = `0${dateArr[1]}`) : null
 
-	let m = moment.utc(
-		`${dateArr[0]}-${dateArr[1]}-${dateArr[2]}T${dateArr[3]}:00+0${
-			moment().utcOffset() / 60
-		}:00`
+	let m = moment.tz(
+		`${dateArr[0]}-${dateArr[1]}-${dateArr[2]} ${dateArr[3]}`,
+		'Europe/Budapest'
 	)
 	return m.isValid() ? m.toDate() : null
 }

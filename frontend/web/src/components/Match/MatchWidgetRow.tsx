@@ -54,12 +54,14 @@ interface MatchWidgetRowProps {
 	title: string
 	leagueId: string
 	matches: MatchMin[]
+	noLink?: boolean
 }
 
 export const MatchWidgetRow: React.FC<MatchWidgetRowProps> = ({
 	title,
 	leagueId,
 	matches,
+	noLink,
 }) => {
 	if (matches.length === 0) return null
 
@@ -67,9 +69,11 @@ export const MatchWidgetRow: React.FC<MatchWidgetRowProps> = ({
 		<MatchWidgetRowWrapper>
 			<MatchWidgetRowHeader>
 				<MatchWidgetRowTitle>{title}</MatchWidgetRowTitle>
-				<Link href={`/league/${leagueId}/games`} passHref>
-					<MatchWidgetRowLink>Összes</MatchWidgetRowLink>
-				</Link>
+				{noLink !== true && (
+					<Link href={`/league/${leagueId}/games`} passHref>
+						<MatchWidgetRowLink>Összes</MatchWidgetRowLink>
+					</Link>
+				)}
 			</MatchWidgetRowHeader>
 			<MatchWidgetRowItems>
 				{matches.map((x) => (

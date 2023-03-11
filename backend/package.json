@@ -20,6 +20,7 @@
 		"express": "^4.17.3",
 		"graphql": "^15.3.0",
 		"moment": "^2.29.1",
+		"moment-timezone": "^0.5.41",
 		"reflect-metadata": "^0.1.13",
 		"type-graphql": "^1.1.1"
 	},

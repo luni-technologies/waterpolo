@@ -78,6 +78,7 @@ const League: NextPage = () => {
 						title="Legfrissebb eredmények"
 						matches={latestResults}
 						leagueId={id as string}
+						noLink={true}
 					/>
 					<MatchWidgetRow
 						title="Következő meccsek"
