@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { load } from 'cheerio'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import { Arg, Query, Resolver } from 'type-graphql'
 import { LeagueMid } from '../entities/League'
 import { Match, MatchesOnDate } from '../entities/Match'
@@ -32,11 +32,8 @@ export class MatchResolver {
 	async matchesOnDate(
 		@Arg('date', () => Date) date: Date
 	): Promise<MatchesOnDate> {
-		const resp = await axios.get(
-			`https://waterpolo.hu/musor/${moment(date)
-				.add(2, 'hours')
-				.format('YYYY-MM-DD')}`
-		)
+		let parsedDate = moment.tz(date, 'Europe/Budapest').format('YYYY-MM-DD')
+		const resp = await axios.get(`https://waterpolo.hu/musor/${parsedDate}`)
 		const $ = load(resp.data)
 
 		const data: LeagueMid[] = []

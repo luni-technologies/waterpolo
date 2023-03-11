@@ -76,6 +76,7 @@ const Home: NextPage = () => {
 		variables: {
 			date: date.toDate(),
 		},
+		fetchPolicy: 'no-cache',
 	})
 
 	return (
@@ -96,7 +97,12 @@ const Home: NextPage = () => {
 									key={i}
 									onClick={() => setDate(dateOfIndex)}
 								>
-									Ma
+									{moment
+										.localeData('hu')
+										.calendar('sameDay')
+										.split(' ')[0]
+										.replace('[', '')
+										.replace(']', '')}
 								</DateSelectorDate>
 							)
 						} else if (i === 1) {
@@ -106,7 +112,12 @@ const Home: NextPage = () => {
 									key={i}
 									onClick={() => setDate(dateOfIndex)}
 								>
-									Holnap
+									{moment
+										.localeData('hu')
+										.calendar('nextDay')
+										.split(' ')[0]
+										.replace('[', '')
+										.replace(']', '')}
 								</DateSelectorDate>
 							)
 						} else {
@@ -116,7 +127,7 @@ const Home: NextPage = () => {
 									key={i}
 									onClick={() => setDate(dateOfIndex)}
 								>
-									{dateOfIndex.format('dddd, MMMM D')}
+									{dateOfIndex.locale('hu').format('dddd, MMMM D')}
 								</DateSelectorDate>
 							)
 						}
