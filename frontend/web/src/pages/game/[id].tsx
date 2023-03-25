@@ -314,24 +314,24 @@ const Game: NextPage = () => {
 					<Spacer />
 					<GameColumnsWrapper>
 						<GameColumn>
-							{data.matchById.goalscorers_home.length > 0 &&
-								data.matchById.goalscorers_away.length > 0 && (
-									<GameScorersWrapper>
-										<GameSectionTitle>Góllövők</GameSectionTitle>
-										<GameScorersRow>
-											<GameScorers>
-												{data.matchById.goalscorers_home
-													.map((x) => `${x.name} ${x.amount}x`)
-													.join(', ')}
-											</GameScorers>
-											<GameScorers>
-												{data.matchById.goalscorers_away
-													.map((x) => `${x.name} ${x.amount}x`)
-													.join(', ')}
-											</GameScorers>
-										</GameScorersRow>
-									</GameScorersWrapper>
-								)}
+							{(data.matchById.goalscorers_home.length > 0 ||
+								data.matchById.goalscorers_away.length > 0) && (
+								<GameScorersWrapper>
+									<GameSectionTitle>Góllövők</GameSectionTitle>
+									<GameScorersRow>
+										<GameScorers>
+											{data.matchById.goalscorers_home
+												.map((x) => `${x.name} ${x.amount}x`)
+												.join(', ')}
+										</GameScorers>
+										<GameScorers>
+											{data.matchById.goalscorers_away
+												.map((x) => `${x.name} ${x.amount}x`)
+												.join(', ')}
+										</GameScorers>
+									</GameScorersRow>
+								</GameScorersWrapper>
+							)}
 							{eventsFiltered.length > 0 && (
 								<>
 									<Spacer />
