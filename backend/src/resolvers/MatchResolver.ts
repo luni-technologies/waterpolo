@@ -56,10 +56,22 @@ export class MatchResolver {
 						team_home: $(el).find('td').eq(2).text().trim(),
 						team_away: $(el).find('td').eq(3).text().trim(),
 						score_home: parseInt(
-							$(el).find('td').eq(4).text().trim().split('(')[0].split('-')[0]
+							$(el)
+								.find('td')
+								.eq(4)
+								.text()
+								.trim()
+								.split('(')[0]
+								.split('-')[0] || '0'
 						),
 						score_away: parseInt(
-							$(el).find('td').eq(4).text().trim().split('(')[0].split('-')[1]
+							$(el)
+								.find('td')
+								.eq(4)
+								.text()
+								.trim()
+								.split('(')[0]
+								.split('-')[1] || '0'
 						),
 						location: $(el).find('td').eq(5).text().trim(),
 					})
