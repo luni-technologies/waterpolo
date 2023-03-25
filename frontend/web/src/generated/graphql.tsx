@@ -21,6 +21,7 @@ export type Event = {
   __typename?: 'Event';
   eventType: Scalars['String'];
   player: Player;
+  score: Scalars['Float'];
   team: Scalars['String'];
   time: Time;
 };
@@ -66,6 +67,7 @@ export type Match = {
   lineup_away: Array<Player>;
   lineup_home: Array<Player>;
   location?: Maybe<Scalars['String']>;
+  playerScores: Array<PlayerScore>;
   quarters: Array<QuarterScore>;
   score_away: Scalars['Int'];
   score_home: Scalars['Int'];
@@ -94,6 +96,12 @@ export type Player = {
   __typename?: 'Player';
   name: Scalars['String'];
   number: Scalars['Int'];
+};
+
+export type PlayerScore = {
+  __typename?: 'PlayerScore';
+  player: Player;
+  score: Scalars['Float'];
 };
 
 export type QuarterScore = {
@@ -189,7 +197,7 @@ export type MatchByIdQueryVariables = Exact<{
 }>;
 
 
-export type MatchByIdQuery = { __typename?: 'Query', matchById: { __typename?: 'Match', id: string, team_home: string, team_away: string, score_home: number, score_away: number, location?: string | null, date?: any | null, league: string, quarters: Array<{ __typename?: 'QuarterScore', score_home: number, score_away: number }>, events: Array<{ __typename?: 'Event', team: string, eventType: string, time: { __typename?: 'Time', quarter: string, seconds: number }, player: { __typename?: 'Player', name: string, number: number } }>, lineup_home: Array<{ __typename?: 'Player', name: string, number: number }>, lineup_away: Array<{ __typename?: 'Player', name: string, number: number }>, goalscorers_home: Array<{ __typename?: 'GoalScorer', name: string, amount: number }>, goalscorers_away: Array<{ __typename?: 'GoalScorer', name: string, amount: number }> } };
+export type MatchByIdQuery = { __typename?: 'Query', matchById: { __typename?: 'Match', id: string, team_home: string, team_away: string, score_home: number, score_away: number, location?: string | null, date?: any | null, league: string, quarters: Array<{ __typename?: 'QuarterScore', score_home: number, score_away: number }>, events: Array<{ __typename?: 'Event', team: string, eventType: string, time: { __typename?: 'Time', quarter: string, seconds: number }, player: { __typename?: 'Player', name: string, number: number } }>, lineup_home: Array<{ __typename?: 'Player', name: string, number: number }>, lineup_away: Array<{ __typename?: 'Player', name: string, number: number }>, goalscorers_home: Array<{ __typename?: 'GoalScorer', name: string, amount: number }>, goalscorers_away: Array<{ __typename?: 'GoalScorer', name: string, amount: number }>, playerScores: Array<{ __typename?: 'PlayerScore', score: number, player: { __typename?: 'Player', name: string, number: number } }> } };
 
 export type MatchesOnDateQueryVariables = Exact<{
   date: Scalars['DateTime'];
@@ -350,6 +358,13 @@ export const MatchByIdDocument = gql`
     goalscorers_away {
       name
       amount
+    }
+    playerScores {
+      player {
+        name
+        number
+      }
+      score
     }
   }
 }

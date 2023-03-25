@@ -40,5 +40,12 @@ query MatchById($id: String!) {
 			name
 			amount
 		}
+		playerScores {
+			player {
+				name
+				number
+			}
+			score
+		}
 	}
 }

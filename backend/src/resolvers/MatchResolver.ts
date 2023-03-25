@@ -4,6 +4,7 @@ import moment from 'moment-timezone'
 import { Arg, Query, Resolver } from 'type-graphql'
 import { LeagueMid } from '../entities/League'
 import { Match, MatchesOnDate } from '../entities/Match'
+import { calculateScore } from '../utils/calculateScore'
 import { parseDate } from '../utils/parseDate'
 
 /* https://www.tutorialspoint.com/group-array-by-equal-values-javascript */
@@ -25,6 +26,26 @@ function groupSimilar(arr: Array<any>): Array<any> {
 		}
 	).data
 }
+
+const statScoreTable: { type: string; value: number }[] = [
+	{ type: 'Labdaelhozás', value: 0.3 },
+	{ type: 'Labdaszerzés', value: 0.1 },
+	{ type: 'Büntető hiba', value: -0.4 },
+	{ type: 'Büntető róla', value: 0.2 },
+	{ type: 'Büntetődobás - gól', value: 0.7 },
+	{ type: 'Kivédett lövés', value: 0.1 },
+	{ type: 'Centergól', value: 1 },
+	{ type: 'Támadó hiba', value: -0.3 },
+	{ type: 'Akciógól', value: 1 },
+	{ type: 'Kiállítás 20mp centerből', value: -0.3 },
+	{ type: 'Kiállítás róla', value: 0.1 },
+	{ type: 'Kihagyott lövés előnyből', value: -0.2 },
+	{ type: 'Kivédett lövés előnyből', value: -0.1 },
+	{ type: 'Kivédett centerlövés', value: 0.2 },
+	{ type: 'Blokk', value: 0.3 },
+	{ type: 'Gól emberelőnyből', value: 1 },
+	{ type: 'Büntetődobás - kivédve', value: -0.3 },
+]
 
 @Resolver()
 export class MatchResolver {
@@ -107,6 +128,7 @@ export class MatchResolver {
 			lineup_away: [],
 			goalscorers_home: [],
 			goalscorers_away: [],
+			playerScores: [],
 		}
 
 		try {
@@ -199,8 +221,46 @@ export class MatchResolver {
 								  ),
 					},
 					eventType: $(el).find('td').eq(4).text().trim(),
+					score:
+						statScoreTable.find(
+							(x) => x.type === $(el).find('td').eq(4).text().trim()
+						)?.value || 0,
 				})
 			)
+
+		data.lineup_home.forEach((player) => {
+			let scores = data.events
+				.filter(
+					(event) =>
+						event.player.name === player.name &&
+						event.player.number === player.number
+				)
+				.map((x) => {
+					return { value: 1, weight: x.score }
+				})
+			if (scores.length === 0) return
+			data.playerScores.push({
+				player: player,
+				score: calculateScore(scores),
+			})
+		})
+
+		data.lineup_away.forEach((player) => {
+			let scores = data.events
+				.filter(
+					(event) =>
+						event.player.name === player.name &&
+						event.player.number === player.number
+				)
+				.map((x) => {
+					return { value: 1, weight: x.score }
+				})
+			if (scores.length === 0) return
+			data.playerScores.push({
+				player: player,
+				score: calculateScore(scores),
+			})
+		})
 
 		const homeGoalEvents = data.events
 			.filter(

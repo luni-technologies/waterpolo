@@ -226,6 +226,25 @@ const GameLineupTableDataNumber = styled.td`
 	text-align: center;
 `
 
+const GameMVPWrapper = styled.div`
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+`
+
+const GameMVPName = styled.span`
+	font-family: 'Roboto Condensed', sans-serif;
+	font-size: 16px;
+	font-weight: 700;
+	text-transform: uppercase;
+`
+
+const GameMVPScore = styled.span`
+	font-family: 'Roboto Condensed', sans-serif;
+	font-size: 14px;
+`
+
 const GameInfoWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -396,6 +415,15 @@ const Game: NextPage = () => {
 																	{x.number}
 																</GameLineupTableDataNumber>
 																<td>{x.name}</td>
+																<GameLineupTableDataNumber>
+																	{(
+																		data.matchById.playerScores.find(
+																			(y) =>
+																				y.player.name === x.name &&
+																				y.player.number === x.number
+																		)?.score || 0
+																	).toFixed(2)}
+																</GameLineupTableDataNumber>
 															</GameLineupTableRow>
 														))}
 													</tbody>
@@ -413,12 +441,42 @@ const Game: NextPage = () => {
 																	{x.number}
 																</GameLineupTableDataNumber>
 																<td>{x.name}</td>
+																<GameLineupTableDataNumber>
+																	{(
+																		data.matchById.playerScores.find(
+																			(y) =>
+																				y.player.name === x.name &&
+																				y.player.number === x.number
+																		)?.score || 0
+																	).toFixed(2)}
+																</GameLineupTableDataNumber>
 															</GameLineupTableRow>
 														))}
 													</tbody>
 												</GameLineupTable>
 											</GameLineupTableWrapper>
 										</GameLineupWrapper>
+										<Spacer />
+									</>
+								)}
+							{data.matchById.events.at(-1)?.eventType === 'Vége' &&
+								data.matchById.events.at(-1)?.time.quarter === 'IV.' && (
+									<>
+										<GameMVPWrapper>
+											<GameSectionTitle>A meccs embere</GameSectionTitle>
+											<GameMVPName>
+												{
+													[...data.matchById.playerScores].sort(
+														(a, b) => b.score - a.score
+													)[0].player.name
+												}
+											</GameMVPName>
+											<GameMVPScore>
+												{[...data.matchById.playerScores]
+													.sort((a, b) => b.score - a.score)[0]
+													.score.toFixed(2)}
+											</GameMVPScore>
+										</GameMVPWrapper>
 										<Spacer />
 									</>
 								)}

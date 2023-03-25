@@ -27,6 +27,7 @@
 	"scripts": {
 		"start": "ts-node src/index.ts",
 		"dev": "ts-node-dev --respawn --rs src/index.ts",
-		"build": "tsc"
+		"build": "tsc",
+		"test": "ts-node src/test/index.ts"
 	}
 }
