@@ -4,6 +4,7 @@ import moment from 'moment-timezone'
 import { Arg, Query, Resolver } from 'type-graphql'
 import { LeagueMid } from '../entities/League'
 import { Match, MatchesOnDate } from '../entities/Match'
+import { calculateScore, scoreData } from '../utils/calculateScore'
 import { parseDate } from '../utils/parseDate'
 
 /* https://www.tutorialspoint.com/group-array-by-equal-values-javascript */
@@ -25,6 +26,43 @@ function groupSimilar(arr: Array<any>): Array<any> {
 		}
 	).data
 }
+
+const statScoreTable: { type: string; value: number }[] = [
+	{ type: 'Labdaelhozás', value: 0.3 },
+	{ type: 'Labdaszerzés', value: 0.1 },
+	{ type: 'Büntető hiba', value: -0.4 },
+	{ type: 'Büntető róla', value: 0.2 },
+	{ type: 'Büntetődobás - gól', value: 0.7 },
+	{ type: 'Kivédett lövés', value: 0.1 },
+	{ type: 'Centergól', value: 1 },
+	{ type: 'Támadó hiba', value: -0.3 },
+	{ type: 'Akciógól', value: 1 },
+	{ type: 'Kiállítás 20mp centerből', value: -0.3 },
+	{ type: 'Kiállítás róla', value: 0.1 },
+	{ type: 'Kihagyott lövés előnyből', value: -0.2 },
+	{ type: 'Kivédett lövés előnyből', value: -0.1 },
+	{ type: 'Kivédett centerlövés', value: 0.2 },
+	{ type: 'Blokk', value: 0.3 },
+	{ type: 'Gól emberelőnyből', value: 1 },
+	{ type: 'Büntetődobás - kivédve', value: -0.3 },
+]
+
+const gkStatScoreTable: { type: string; value: number }[] = [
+	{ type: 'actionSave', value: 0.7 },
+	{ type: 'actionGoal', value: -0.4 },
+	{ type: 'centerSave', value: 0.7 },
+	{ type: 'centerGoal', value: -0.3 },
+	{ type: 'freeSave', value: 0.5 },
+	{ type: 'freeGoal', value: -0.5 },
+	{ type: 'penSave', value: 1 },
+	{ type: 'penGoal', value: -0.3 },
+	{ type: 'swimSave', value: 1 },
+	{ type: 'swimGoal', value: -0.3 },
+	{ type: 'disSave', value: 0.7 },
+	{ type: 'disGoal', value: -0.3 },
+	{ type: 'forSave', value: 0.5 },
+	{ type: 'forGoal', value: -0.4 },
+]
 
 @Resolver()
 export class MatchResolver {
@@ -119,6 +157,7 @@ export class MatchResolver {
 			lineup_away: [],
 			goalscorers_home: [],
 			goalscorers_away: [],
+			playerScores: [],
 		}
 
 		try {
@@ -135,6 +174,43 @@ export class MatchResolver {
 			data.quarters = []
 		}
 
+		let goalkeepers: string[] = []
+		$('table.meccs_jatekos td.player').map((_, x) =>
+			goalkeepers.push($(x).text())
+		)
+
+		let gkPlayerScores: { name: string; scores: scoreData[] }[] = []
+		$('table.meccs_jatekos').map((_, x) => {
+			$(x)
+				.html()
+				?.split('\n')
+				.map((x) => x.trim())
+				.join('')
+				.split('<tr style="height: 12px;"></tr>')
+				.forEach((playerTable) => {
+					let t$ = $.load(playerTable, {}, false)
+					let name = t$('tr').eq(0).find('td').eq(0).text()
+					let playerScores: scoreData[] = []
+					t$('tr')
+						.eq(1)
+						.find('td')
+						.map((i, y) => {
+							let stat = $(y).text().split('(')[0].split('/')
+							let statPoint1 = {
+								value: parseInt(stat[0]),
+								weight: gkStatScoreTable[2 * i].value,
+							}
+							let statPoint2 = {
+								value: parseInt(stat[1]) - parseInt(stat[0]),
+								weight: gkStatScoreTable[2 * i + 1].value,
+							}
+							playerScores.push(statPoint1)
+							playerScores.push(statPoint2)
+						})
+					gkPlayerScores.push({ name: name, scores: playerScores })
+				})
+		})
+
 		$('div.n_tab')
 			.eq(1)
 			.find('td[valign]')
@@ -144,6 +220,7 @@ export class MatchResolver {
 				data.lineup_home.push({
 					name: $(el).find('td').eq(1).text().trim(),
 					number: parseInt($(el).find('td').eq(0).text().trim()),
+					isGK: goalkeepers.includes($(el).find('td').eq(1).text().trim()),
 				})
 			)
 
@@ -156,6 +233,7 @@ export class MatchResolver {
 				data.lineup_away.push({
 					name: $(el).find('td').eq(1).text().trim(),
 					number: parseInt($(el).find('td').eq(0).text().trim()),
+					isGK: goalkeepers.includes($(el).find('td').eq(1).text().trim()),
 				})
 			)
 
@@ -209,10 +287,74 @@ export class MatchResolver {
 											.split(' (')[1]
 											.replace(')', '')
 								  ),
+						isGK: goalkeepers.includes(
+							$(el).find('td').eq(0).text().trim() === '' &&
+								$(el).find('td').eq(5).text().trim() === ''
+								? ''
+								: $(el).find('td').eq(0).text().trim() === ''
+								? $(el).find('td').eq(5).text().trim().split(' (')[0]
+								: $(el).find('td').eq(0).text().trim().split(' (')[0]
+						),
 					},
 					eventType: $(el).find('td').eq(4).text().trim(),
+					score:
+						statScoreTable.find(
+							(x) => x.type === $(el).find('td').eq(4).text().trim()
+						)?.value || 0,
 				})
 			)
+
+		data.lineup_home.forEach((player) => {
+			if (player.isGK) {
+				data.playerScores.push({
+					player: player,
+					score: calculateScore(
+						gkPlayerScores.find((x) => x.name === player.name)?.scores || []
+					),
+				})
+			} else {
+				let scores = data.events
+					.filter(
+						(event) =>
+							event.player.name === player.name &&
+							event.player.number === player.number
+					)
+					.map((x) => {
+						return { value: 1, weight: x.score }
+					})
+				if (scores.length === 0) return
+				data.playerScores.push({
+					player: player,
+					score: calculateScore(scores),
+				})
+			}
+		})
+
+		data.lineup_away.forEach((player) => {
+			if (player.isGK) {
+				data.playerScores.push({
+					player: player,
+					score: calculateScore(
+						gkPlayerScores.find((x) => x.name === player.name)?.scores || []
+					),
+				})
+			} else {
+				let scores = data.events
+					.filter(
+						(event) =>
+							event.player.name === player.name &&
+							event.player.number === player.number
+					)
+					.map((x) => {
+						return { value: 1, weight: x.score }
+					})
+				if (scores.length === 0) return
+				data.playerScores.push({
+					player: player,
+					score: calculateScore(scores),
+				})
+			}
+		})
 
 		const homeGoalEvents = data.events
 			.filter(

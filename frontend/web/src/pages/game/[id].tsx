@@ -221,9 +221,35 @@ const GameLineupTableRow = styled.tr<{ highlight?: boolean }>`
 	}
 `
 
+const GameLineupTableDataName = styled.td`
+	padding-left: 5px;
+`
+
 const GameLineupTableDataNumber = styled.td`
 	width: 5%;
 	text-align: center;
+	font-family: 'Oswald', sans-serif;
+	font-size: 13px;
+	padding: 0 5px 0 5px;
+`
+
+const GameMVPWrapper = styled.div`
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+`
+
+const GameMVPName = styled.span`
+	font-family: 'Roboto Condensed', sans-serif;
+	font-size: 16px;
+	font-weight: 700;
+	text-transform: uppercase;
+`
+
+const GameMVPScore = styled.span`
+	font-family: 'Oswald', sans-serif;
+	font-size: 14px;
 `
 
 const GameInfoWrapper = styled.div`
@@ -391,11 +417,22 @@ const Game: NextPage = () => {
 												<GameLineupTable>
 													<tbody>
 														{data.matchById.lineup_home.map((x, i) => (
-															<GameLineupTableRow key={i} highlight={false}>
+															<GameLineupTableRow key={i} highlight={x.isGK}>
 																<GameLineupTableDataNumber>
 																	{x.number}
 																</GameLineupTableDataNumber>
-																<td>{x.name}</td>
+																<GameLineupTableDataName>
+																	{x.name}
+																</GameLineupTableDataName>
+																<GameLineupTableDataNumber>
+																	{(
+																		data.matchById.playerScores.find(
+																			(y) =>
+																				y.player.name === x.name &&
+																				y.player.number === x.number
+																		)?.score || 0
+																	).toFixed(2)}
+																</GameLineupTableDataNumber>
 															</GameLineupTableRow>
 														))}
 													</tbody>
@@ -408,17 +445,49 @@ const Game: NextPage = () => {
 												<GameLineupTable>
 													<tbody>
 														{data.matchById.lineup_away.map((x, i) => (
-															<GameLineupTableRow key={i} highlight={false}>
+															<GameLineupTableRow key={i} highlight={x.isGK}>
 																<GameLineupTableDataNumber>
 																	{x.number}
 																</GameLineupTableDataNumber>
-																<td>{x.name}</td>
+																<GameLineupTableDataName>
+																	{x.name}
+																</GameLineupTableDataName>
+																<GameLineupTableDataNumber>
+																	{(
+																		data.matchById.playerScores.find(
+																			(y) =>
+																				y.player.name === x.name &&
+																				y.player.number === x.number
+																		)?.score || 0
+																	).toFixed(2)}
+																</GameLineupTableDataNumber>
 															</GameLineupTableRow>
 														))}
 													</tbody>
 												</GameLineupTable>
 											</GameLineupTableWrapper>
 										</GameLineupWrapper>
+										<Spacer />
+									</>
+								)}
+							{data.matchById.events.at(-1)?.eventType === 'Vége' &&
+								data.matchById.events.at(-1)?.time.quarter === 'IV.' && (
+									<>
+										<GameMVPWrapper>
+											<GameSectionTitle>A meccs embere</GameSectionTitle>
+											<GameMVPName>
+												{
+													[...data.matchById.playerScores].sort(
+														(a, b) => b.score - a.score
+													)[0].player.name
+												}
+											</GameMVPName>
+											<GameMVPScore>
+												{[...data.matchById.playerScores]
+													.sort((a, b) => b.score - a.score)[0]
+													.score.toFixed(2)}
+											</GameMVPScore>
+										</GameMVPWrapper>
 										<Spacer />
 									</>
 								)}

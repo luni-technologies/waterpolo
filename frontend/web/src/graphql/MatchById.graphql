@@ -27,10 +27,12 @@ query MatchById($id: String!) {
 		lineup_home {
 			name
 			number
+			isGK
 		}
 		lineup_away {
 			name
 			number
+			isGK
 		}
 		goalscorers_home {
 			name
@@ -39,6 +41,13 @@ query MatchById($id: String!) {
 		goalscorers_away {
 			name
 			amount
+		}
+		playerScores {
+			player {
+				name
+				number
+			}
+			score
 		}
 	}
 }

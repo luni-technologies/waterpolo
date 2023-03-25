@@ -41,6 +41,9 @@ export class Player {
 
 	@Field(() => Int)
 	number: number
+
+	@Field(() => Boolean)
+	isGK: boolean
 }
 
 @ObjectType()
@@ -56,6 +59,9 @@ export class Event {
 
 	@Field(() => String)
 	eventType: string
+
+	@Field(() => Number)
+	score: number
 }
 
 @ObjectType()
@@ -74,6 +80,15 @@ export class GoalScorer {
 
 	@Field(() => Int)
 	amount: number
+}
+
+@ObjectType()
+export class PlayerScore {
+	@Field(() => Player)
+	player: Player
+
+	@Field(() => Number)
+	score: number
 }
 
 @ObjectType()
@@ -98,6 +113,9 @@ export class Match extends MatchMin {
 
 	@Field(() => [GoalScorer])
 	goalscorers_away: GoalScorer[]
+
+	@Field(() => [PlayerScore])
+	playerScores: PlayerScore[]
 }
 
 @ObjectType()
