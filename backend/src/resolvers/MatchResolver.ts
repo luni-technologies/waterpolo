@@ -49,19 +49,19 @@ const statScoreTable: { type: string; value: number }[] = [
 
 const gkStatScoreTable: { type: string; value: number }[] = [
 	{ type: 'actionSave', value: 0.7 },
-	{ type: 'actionGoal', value: -0.4 },
+	{ type: 'actionGoal', value: -0.7 },
 	{ type: 'centerSave', value: 0.7 },
-	{ type: 'centerGoal', value: -0.3 },
+	{ type: 'centerGoal', value: -0.7 },
 	{ type: 'freeSave', value: 0.5 },
 	{ type: 'freeGoal', value: -0.5 },
 	{ type: 'penSave', value: 1 },
-	{ type: 'penGoal', value: -0.3 },
+	{ type: 'penGoal', value: -0.5 },
 	{ type: 'swimSave', value: 1 },
-	{ type: 'swimGoal', value: -0.3 },
+	{ type: 'swimGoal', value: -0.5 },
 	{ type: 'disSave', value: 0.7 },
-	{ type: 'disGoal', value: -0.3 },
+	{ type: 'disGoal', value: -0.7 },
 	{ type: 'forSave', value: 0.5 },
-	{ type: 'forGoal', value: -0.4 },
+	{ type: 'forGoal', value: -0.5 },
 ]
 
 @Resolver()
@@ -210,6 +210,22 @@ export class MatchResolver {
 							let statPoint2 = {
 								value: parseInt(stat[1]) - parseInt(stat[0]),
 								weight: gkStatScoreTable[2 * i + 1].value,
+							}
+							playerScores.push(statPoint1)
+							playerScores.push(statPoint2)
+						})
+					t$('tr')
+						.eq(3)
+						.find('td')
+						.map((i, y) => {
+							let stat = $(y).text().split('(')[0].split('/')
+							let statPoint1 = {
+								value: parseInt(stat[0]),
+								weight: gkStatScoreTable[2 * i + 4].value,
+							}
+							let statPoint2 = {
+								value: parseInt(stat[1]) - parseInt(stat[0]),
+								weight: gkStatScoreTable[2 * i + 5].value,
 							}
 							playerScores.push(statPoint1)
 							playerScores.push(statPoint2)
