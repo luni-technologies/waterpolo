@@ -221,9 +221,16 @@ const GameLineupTableRow = styled.tr<{ highlight?: boolean }>`
 	}
 `
 
+const GameLineupTableDataName = styled.td`
+	padding-left: 5px;
+`
+
 const GameLineupTableDataNumber = styled.td`
 	width: 5%;
 	text-align: center;
+	font-family: 'Oswald', sans-serif;
+	font-size: 13px;
+	padding: 0 5px 0 5px;
 `
 
 const GameMVPWrapper = styled.div`
@@ -241,7 +248,7 @@ const GameMVPName = styled.span`
 `
 
 const GameMVPScore = styled.span`
-	font-family: 'Roboto Condensed', sans-serif;
+	font-family: 'Oswald', sans-serif;
 	font-size: 14px;
 `
 
@@ -410,11 +417,13 @@ const Game: NextPage = () => {
 												<GameLineupTable>
 													<tbody>
 														{data.matchById.lineup_home.map((x, i) => (
-															<GameLineupTableRow key={i} highlight={false}>
+															<GameLineupTableRow key={i} highlight={x.isGK}>
 																<GameLineupTableDataNumber>
 																	{x.number}
 																</GameLineupTableDataNumber>
-																<td>{x.name}</td>
+																<GameLineupTableDataName>
+																	{x.name}
+																</GameLineupTableDataName>
 																<GameLineupTableDataNumber>
 																	{(
 																		data.matchById.playerScores.find(
@@ -436,11 +445,13 @@ const Game: NextPage = () => {
 												<GameLineupTable>
 													<tbody>
 														{data.matchById.lineup_away.map((x, i) => (
-															<GameLineupTableRow key={i} highlight={false}>
+															<GameLineupTableRow key={i} highlight={x.isGK}>
 																<GameLineupTableDataNumber>
 																	{x.number}
 																</GameLineupTableDataNumber>
-																<td>{x.name}</td>
+																<GameLineupTableDataName>
+																	{x.name}
+																</GameLineupTableDataName>
 																<GameLineupTableDataNumber>
 																	{(
 																		data.matchById.playerScores.find(

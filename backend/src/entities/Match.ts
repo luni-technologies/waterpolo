@@ -41,6 +41,9 @@ export class Player {
 
 	@Field(() => Int)
 	number: number
+
+	@Field(() => Boolean)
+	isGK: boolean
 }
 
 @ObjectType()

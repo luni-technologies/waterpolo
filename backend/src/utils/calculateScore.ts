@@ -1,4 +1,4 @@
-interface scoreData {
+export interface scoreData {
 	value: number
 	weight: number
 }
@@ -7,7 +7,7 @@ export function calculateScore(
 	data: scoreData[],
 	a: number = 0.7,
 	b: number = 10,
-	c: number = 0.33
+	c: number = 0.2
 ) {
 	let graph = (x: number) => -b * Math.pow(0.5, a * x + c) + b
 	let score = data
