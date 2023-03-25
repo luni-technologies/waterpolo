@@ -152,7 +152,7 @@ export class MatchResolver {
 			),
 			quarters: [],
 			events: [],
-			league: $('div.news_top_rounded').text().split('-')[1].trim(),
+			league: $('div.news_top_rounded').text().split('-')[1]?.trim() || '',
 			lineup_home: [],
 			lineup_away: [],
 			goalscorers_home: [],
