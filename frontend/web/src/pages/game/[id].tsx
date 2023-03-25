@@ -512,6 +512,12 @@ const Game: NextPage = () => {
 									<GameInfoDataValue>{data.matchById.league}</GameInfoDataValue>
 								</GameInfoData>
 								<GameInfoData>
+									<GameInfoDataTitle>bírók</GameInfoDataTitle>
+									<GameInfoDataValue>
+										{data.matchById.referees.map((x) => x.name).join(', ')}
+									</GameInfoDataValue>
+								</GameInfoData>
+								<GameInfoData>
 									<GameInfoDataLink
 										onClick={() => {
 											createCalendarEvent({

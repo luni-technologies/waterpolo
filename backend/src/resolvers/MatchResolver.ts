@@ -158,6 +158,7 @@ export class MatchResolver {
 			goalscorers_home: [],
 			goalscorers_away: [],
 			playerScores: [],
+			referees: [],
 		}
 
 		try {
@@ -173,6 +174,12 @@ export class MatchResolver {
 		} catch (e) {
 			data.quarters = []
 		}
+
+		$('table.meccs_detail tr').map((_, x) => {
+			if ($(x).find('td').eq(0).text() === 'Játékvezető') {
+				data.referees.push({ name: $(x).find('td').eq(1).text().trim() })
+			}
+		})
 
 		let goalkeepers: string[] = []
 		$('table.meccs_jatekos td.player').map((_, x) =>

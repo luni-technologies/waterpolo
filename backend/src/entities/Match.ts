@@ -47,6 +47,12 @@ export class Player {
 }
 
 @ObjectType()
+export class Referee {
+	@Field(() => String)
+	name: string
+}
+
+@ObjectType()
 export class Event {
 	@Field(() => Time)
 	time: Time
@@ -116,6 +122,9 @@ export class Match extends MatchMin {
 
 	@Field(() => [PlayerScore])
 	playerScores: PlayerScore[]
+
+	@Field(() => [Referee])
+	referees: Referee[]
 }
 
 @ObjectType()

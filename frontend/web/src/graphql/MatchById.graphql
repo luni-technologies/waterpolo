@@ -23,6 +23,9 @@ query MatchById($id: String!) {
 			}
 			eventType
 		}
+		referees {
+			name
+		}
 		league
 		lineup_home {
 			name
