@@ -14,7 +14,7 @@ export class SearchResolver {
 			players: [],
 		}
 		const allLeagues = await new LeagueResolver().all()
-		data.leagues = allLeagues.filter((x) =>
+		data.leagues = allLeagues.mens.filter((x) =>
 			x.title.toLowerCase().replace(/ /g, '').includes(query)
 		)
 

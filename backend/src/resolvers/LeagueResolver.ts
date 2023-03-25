@@ -2,25 +2,39 @@ import axios from 'axios'
 import { load } from 'cheerio'
 import moment from 'moment'
 import { Arg, Query, Resolver } from 'type-graphql'
-import { League, LeagueMin, Table } from '../entities/League'
+import { League, LeagueResponse, Table } from '../entities/League'
 import { MatchMin } from '../entities/Match'
 import { parseDate } from '../utils/parseDate'
 
 @Resolver()
 export class LeagueResolver {
-	@Query(() => [LeagueMin])
-	async all(): Promise<LeagueMin[]> {
+	@Query(() => LeagueResponse)
+	async all(): Promise<LeagueResponse> {
 		const resp = await axios.get('https://waterpolo.hu/bajnoksagok/')
 		const $ = load(resp.data)
 
-		let data: LeagueMin[] = []
+		let data: LeagueResponse = {
+			mens: [],
+			womens: [],
+		}
 
 		$('select.seasons_select')
-			.first()
+			.eq(0)
 			.find('option')
 			.map((_, el) => {
 				if ($(el).text() === '') return
-				data.push({
+				data.mens.push({
+					id: $(el).attr('value') || '',
+					title: $(el).text(),
+				})
+			})
+
+		$('select.seasons_select')
+			.eq(1)
+			.find('option')
+			.map((_, el) => {
+				if ($(el).text() === '') return
+				data.womens.push({
 					id: $(el).attr('value') || '',
 					title: $(el).text(),
 				})

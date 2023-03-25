@@ -85,3 +85,12 @@ export class LeagueMid extends LeagueMin {
 	@Field(() => [MatchMin])
 	matches: MatchMin[]
 }
+
+@ObjectType()
+export class LeagueResponse {
+	@Field(() => [LeagueMin])
+	mens: LeagueMin[]
+
+	@Field(() => [LeagueMin])
+	womens: LeagueMin[]
+}
