@@ -60,7 +60,7 @@ const Leagues: NextPage = () => {
 				<PageWrapper title="Bajnokságok | Waterpolo">
 					<LeaguesListWrapper>
 						<LeaguesListTitle>bajnokságok</LeaguesListTitle>
-						{data.all.map((x) => (
+						{data.all.mens.map((x) => (
 							<LeaguesListItem key={x.id}>
 								<Link href={`/league/${x.id}`} passHref>
 									<a>{x.title}</a>

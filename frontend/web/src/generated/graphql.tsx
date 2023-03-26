@@ -56,6 +56,12 @@ export type LeagueMin = {
   title: Scalars['String'];
 };
 
+export type LeagueResponse = {
+  __typename?: 'LeagueResponse';
+  mens: Array<LeagueMin>;
+  womens: Array<LeagueMin>;
+};
+
 export type Match = {
   __typename?: 'Match';
   date?: Maybe<Scalars['DateTime']>;
@@ -114,7 +120,7 @@ export type QuarterScore = {
 
 export type Query = {
   __typename?: 'Query';
-  all: Array<LeagueMin>;
+  all: LeagueResponse;
   findById: League;
   hello: Scalars['String'];
   matchById: Match;
@@ -190,7 +196,7 @@ export type Time = {
 export type LeagueAllQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LeagueAllQuery = { __typename?: 'Query', all: Array<{ __typename?: 'LeagueMin', id: string, title: string }> };
+export type LeagueAllQuery = { __typename?: 'Query', all: { __typename?: 'LeagueResponse', mens: Array<{ __typename?: 'LeagueMin', id: string, title: string }>, womens: Array<{ __typename?: 'LeagueMin', id: string, title: string }> } };
 
 export type LeagueByIdQueryVariables = Exact<{
   id: Scalars['String'];
@@ -224,8 +230,14 @@ export type SearchQuery = { __typename?: 'Query', search: { __typename?: 'Search
 export const LeagueAllDocument = gql`
     query LeagueAll {
   all {
-    id
-    title
+    mens {
+      id
+      title
+    }
+    womens {
+      id
+      title
+    }
   }
 }
     `;
