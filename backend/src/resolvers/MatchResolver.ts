@@ -332,7 +332,8 @@ export class MatchResolver {
 				data.playerScores.push({
 					player: player,
 					score: calculateScore(
-						gkPlayerScores.find((x) => x.name === player.name)?.scores || []
+						gkPlayerScores.find((x) => x.name === player.name)?.scores || [],
+						0.4
 					),
 				})
 			} else {
