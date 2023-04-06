@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import Link from 'next/link'
 import styled from 'styled-components'
+import { Loading } from '../../components/Loading'
 import { PageWrapper } from '../../components/PageWrapper'
 import { useLeagueAllQuery } from '../../generated/graphql'
 
@@ -53,24 +54,22 @@ const Leagues: NextPage = () => {
 	const { loading, data } = useLeagueAllQuery()
 
 	return (
-		<div>
+		<PageWrapper title="Bajnokságok | Waterpolo">
 			{loading || !data ? (
-				<span>loading...</span>
+				<Loading />
 			) : (
-				<PageWrapper title="Bajnokságok | Waterpolo">
-					<LeaguesListWrapper>
-						<LeaguesListTitle>bajnokságok</LeaguesListTitle>
-						{data.all.mens.map((x) => (
-							<LeaguesListItem key={x.id}>
-								<Link href={`/league/${x.id}`} passHref>
-									<a>{x.title}</a>
-								</Link>
-							</LeaguesListItem>
-						))}
-					</LeaguesListWrapper>
-				</PageWrapper>
+				<LeaguesListWrapper>
+					<LeaguesListTitle>bajnokságok</LeaguesListTitle>
+					{data.all.mens.map((x) => (
+						<LeaguesListItem key={x.id}>
+							<Link href={`/league/${x.id}`} passHref>
+								<a>{x.title}</a>
+							</Link>
+						</LeaguesListItem>
+					))}
+				</LeaguesListWrapper>
 			)}
-		</div>
+		</PageWrapper>
 	)
 }
 

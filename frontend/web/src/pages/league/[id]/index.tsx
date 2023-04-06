@@ -2,6 +2,7 @@ import moment from 'moment'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
+import { Loading } from '../../../components/Loading'
 import { MatchWidgetRow } from '../../../components/Match/MatchWidgetRow'
 import { PageWrapper } from '../../../components/PageWrapper'
 import { Spacer } from '../../../components/Spacer'
@@ -64,11 +65,11 @@ const League: NextPage = () => {
 					.splice(0, 3)
 
 	return (
-		<div>
+		<PageWrapper title={`${data?.findById.title || 'Betöltés...'} | Waterpolo`}>
 			{loading || !data ? (
-				<span>loading...</span>
+				<Loading />
 			) : (
-				<PageWrapper title={`${data.findById.title} | Waterpolo`}>
+				<>
 					<LeagueHeader>
 						<LeagueSubtitle>{data.findById.organiser}</LeagueSubtitle>
 						<LeagueTitle>{data.findById.title}</LeagueTitle>
@@ -87,9 +88,9 @@ const League: NextPage = () => {
 					/>
 					<Spacer />
 					<TableWidgetWrapper tables={data.findById.tables} />
-				</PageWrapper>
+				</>
 			)}
-		</div>
+		</PageWrapper>
 	)
 }
 

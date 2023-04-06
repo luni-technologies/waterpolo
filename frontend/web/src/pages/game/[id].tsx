@@ -2,6 +2,7 @@ import moment from 'moment'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
+import { Loading } from '../../components/Loading'
 import { PageWrapper } from '../../components/PageWrapper'
 import { Spacer } from '../../components/Spacer'
 import { useMatchByIdQuery } from '../../generated/graphql'
@@ -316,13 +317,15 @@ const Game: NextPage = () => {
 			  )
 
 	return (
-		<div>
+		<PageWrapper
+			title={`${data?.matchById.team_home || 'Betöltés...'} v ${
+				data?.matchById.team_away || 'Betöltés...'
+			} | Waterpolo`}
+		>
 			{loading || !data ? (
-				<span>loading...</span>
+				<Loading />
 			) : (
-				<PageWrapper
-					title={`${data.matchById.team_home} v ${data.matchById.team_away} | Waterpolo`}
-				>
+				<>
 					<GameHeader>
 						<GameHeaderTeam>{data.matchById.team_home}</GameHeaderTeam>
 						<GameHeaderScoreWrapper>
@@ -541,9 +544,9 @@ const Game: NextPage = () => {
 							<Spacer />
 						</GameColumn>
 					</GameColumnsWrapper>
-				</PageWrapper>
+				</>
 			)}
-		</div>
+		</PageWrapper>
 	)
 }
 

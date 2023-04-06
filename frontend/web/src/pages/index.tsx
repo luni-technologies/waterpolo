@@ -7,6 +7,7 @@ import { useMatchesOnDateQuery } from '../generated/graphql'
 
 import 'moment/locale/hu'
 import { useState } from 'react'
+import { Loading } from '../components/Loading'
 
 const DateSelectorWrapper = styled.div`
 	position: fixed;
@@ -135,7 +136,7 @@ const Home: NextPage = () => {
 				</DateSelectorList>
 			</DateSelectorWrapper>
 			{loading || !data ? (
-				<span>loading...</span>
+				<Loading />
 			) : (
 				<MatchWidgetGridWrapper>
 					{data.matchesOnDate.leagues.length > 0 ? (

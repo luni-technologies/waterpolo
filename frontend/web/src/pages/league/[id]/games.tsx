@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
+import { Loading } from '../../../components/Loading'
 import { MatchWidgetGrid } from '../../../components/Match/MatchWidgetGrid'
 import { PageWrapper } from '../../../components/PageWrapper'
 import { Spacer } from '../../../components/Spacer'
@@ -50,20 +51,22 @@ const LeagueGames: NextPage = () => {
 	})
 
 	return (
-		<div>
+		<PageWrapper
+			title={`${data?.findById.title || 'Betöltés...'} | Meccsek | Waterpolo`}
+		>
 			{loading || !data ? (
-				<span>loading...</span>
+				<Loading />
 			) : (
-				<PageWrapper title={`${data.findById.title} | Meccsek | Waterpolo`}>
+				<>
 					<LeagueHeader>
 						<LeagueSubtitle>{data.findById.organiser}</LeagueSubtitle>
 						<LeagueTitle>{data.findById.title}</LeagueTitle>
 					</LeagueHeader>
 					<Spacer />
 					<MatchWidgetGrid matches={data.findById.matches} />
-				</PageWrapper>
+				</>
 			)}
-		</div>
+		</PageWrapper>
 	)
 }
 
