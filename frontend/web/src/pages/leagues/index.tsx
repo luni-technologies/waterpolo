@@ -5,14 +5,30 @@ import { Loading } from '../../components/Loading'
 import { PageWrapper } from '../../components/PageWrapper'
 import { useLeagueAllQuery } from '../../generated/graphql'
 
-const LeaguesListWrapper = styled.ul`
-	list-style-type: none;
+const LeaguesListWrapper = styled.div`
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+
+	@media only screen and (max-width: 770px) {
+		flex-direction: column-reverse;
+	}
+`
+
+const LeaguesList = styled.div`
+	display: flex;
+	flex-direction: column;
 	margin: 0;
 	margin-top: 50px;
 	padding: 0;
 
 	@media only screen and (max-width: 770px) {
 		margin-top: 60px;
+		align-items: start !important;
+	}
+
+	&:last-child {
+		align-items: end;
 	}
 `
 
@@ -21,11 +37,10 @@ const LeaguesListTitle = styled.h3`
 	font-size: 15px;
 	font-weight: 700;
 	text-transform: uppercase;
-	margin-right: 10px;
 	margin-bottom: 15px;
 `
 
-const LeaguesListItem = styled.li`
+const LeaguesListItem = styled.p`
 	font-family: 'Roboto Condensed', sans-serif;
 	font-weight: 400;
 	font-size: 17px;
@@ -59,14 +74,26 @@ const Leagues: NextPage = () => {
 				<Loading />
 			) : (
 				<LeaguesListWrapper>
-					<LeaguesListTitle>bajnokságok</LeaguesListTitle>
-					{data.all.mens.map((x) => (
-						<LeaguesListItem key={x.id}>
-							<Link href={`/league/${x.id}`} passHref>
-								<a>{x.title}</a>
-							</Link>
-						</LeaguesListItem>
-					))}
+					<LeaguesList>
+						<LeaguesListTitle>férfi bajnokságok</LeaguesListTitle>
+						{data.all.mens.map((x) => (
+							<LeaguesListItem key={x.id}>
+								<Link href={`/league/${x.id}`} passHref>
+									<a>{x.title}</a>
+								</Link>
+							</LeaguesListItem>
+						))}
+					</LeaguesList>
+					<LeaguesList>
+						<LeaguesListTitle>női bajnokságok</LeaguesListTitle>
+						{data.all.womens.map((x) => (
+							<LeaguesListItem key={x.id}>
+								<Link href={`/league/${x.id}`} passHref>
+									<a>{x.title}</a>
+								</Link>
+							</LeaguesListItem>
+						))}
+					</LeaguesList>
 				</LeaguesListWrapper>
 			)}
 		</PageWrapper>
