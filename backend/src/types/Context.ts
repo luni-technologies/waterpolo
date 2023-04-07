@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 
 export interface Context {
-	req: Request
+	req: Request & { session: { userId: any } }
 	res: Response
 }
