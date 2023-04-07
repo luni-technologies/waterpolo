@@ -102,7 +102,7 @@ export class UserResolver {
 	}
 
 	@Mutation(() => Boolean)
-	async delete(
+	async deleteUser(
 		@Arg('options', () => LoginInput) options: LoginInput
 	): Promise<boolean> {
 		const user = await User.findOne({ where: { email: options.email } })
@@ -124,7 +124,7 @@ export class UserResolver {
 	}
 
 	@Mutation(() => Boolean)
-	async confirmDelete(
+	async confirmDeleteUser(
 		@Arg('options', () => VerifyInput, { validate: false }) options: VerifyInput
 	): Promise<boolean> {
 		const id = await redis.get(`del:${options.key}`)
