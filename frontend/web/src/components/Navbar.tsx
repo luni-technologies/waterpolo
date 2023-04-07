@@ -1,7 +1,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { useMeQuery } from '../generated/graphql'
+import { GreetingsList } from './constants'
 
 const Nav = styled.div`
 	display: block;
@@ -22,7 +24,7 @@ const NavContent = styled.div`
 	margin: 10px 0;
 `
 
-const NavLinkGroup = styled.div`
+const NavContentGroup = styled.div`
 	display: flex;
 	align-items: center;
 
@@ -38,15 +40,28 @@ const NavLink = styled.a`
 	text-transform: uppercase;
 	color: #000000;
 	text-decoration: none;
+
+	& span {
+		font-weight: 400;
+	}
 `
 
 interface NavbarProps {}
 
 export const Navbar: React.FC<NavbarProps> = ({}) => {
+	const { loading, data } = useMeQuery()
+
+	const [randGreeting, setRandGreeting] = useState<string>()
+	useEffect(() => {
+		setRandGreeting(
+			GreetingsList[Math.floor(Math.random() * GreetingsList.length)].greeting
+		)
+	}, [setRandGreeting])
+
 	return (
 		<Nav>
 			<NavContent>
-				<NavLinkGroup>
+				<NavContentGroup>
 					<Image
 						src={'/logo.png'}
 						alt={'blue waterpolo byluni logo'}
@@ -59,8 +74,19 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
 					<Link href={'/leagues/'} passHref>
 						<NavLink>bajnokságok</NavLink>
 					</Link>
-				</NavLinkGroup>
-				<NavLinkGroup></NavLinkGroup>
+				</NavContentGroup>
+				<NavContentGroup>
+					{!loading && data?.me ? (
+						<NavLink>
+							<span>{randGreeting}, </span>
+							{data.me.first_name}
+						</NavLink>
+					) : (
+						<Link href={'/login'} passHref>
+							<NavLink>bejelentkezés</NavLink>
+						</Link>
+					)}
+				</NavContentGroup>
 			</NavContent>
 		</Nav>
 	)

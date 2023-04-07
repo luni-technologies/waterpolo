@@ -1,4 +1,4 @@
-import { IsEmail, Length, Matches, MinLength } from 'class-validator'
+import { IsEmail, IsNotEmpty, Matches, MinLength } from 'class-validator'
 import { Field, InputType, ObjectType } from 'type-graphql'
 import {
 	BaseEntity,
@@ -38,9 +38,10 @@ export class User extends BaseEntity {
 	email_verified: boolean
 
 	@Column('text')
-	@MinLength(8, { message: 'password_short' })
+	@MinLength(8, { message: 'Password must be longer than 8 characters' })
 	@Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-		message: 'password_weak',
+		message:
+			'Password must include: uppercase letters, lowercase letters and numbers',
 	})
 	password: string
 }
@@ -48,23 +49,23 @@ export class User extends BaseEntity {
 @InputType()
 export class RegisterInput {
 	@Field(() => String)
-	@Length(1, 255)
+	@IsNotEmpty({ message: 'First name must not be empty' })
 	first_name: string
 
 	@Field(() => String)
-	@Length(1, 255)
+	@IsNotEmpty({ message: 'Last name must not be empty' })
 	last_name: string
 
 	@Field(() => String)
-	@Length(1, 255)
-	@IsEmail({}, { message: 'email_invalid' })
-	@IsEmailAvailable({ message: 'email_unavailable' })
+	@IsEmail({}, { message: 'Must be a valid email' })
+	@IsEmailAvailable({ message: 'Email is already in use' })
 	email: string
 
 	@Field(() => String)
-	@MinLength(8, { message: 'password_short' })
+	@MinLength(8, { message: 'Password must be longer than 8 characters' })
 	@Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-		message: 'password_weak',
+		message:
+			'Password must include: uppercase letters, lowercase letters and numbers',
 	})
 	password: string
 }
@@ -72,11 +73,11 @@ export class RegisterInput {
 @InputType()
 export class LoginInput {
 	@Field(() => String)
-	@IsEmail({}, { message: 'email_invalid' })
+	@IsEmail({}, { message: 'Must be a valid email' })
 	email: string
 
 	@Field(() => String)
-	@MinLength(8, { message: 'password_short' })
+	@MinLength(8, { message: 'Password must be longer than 8 characters' })
 	password: string
 }
 

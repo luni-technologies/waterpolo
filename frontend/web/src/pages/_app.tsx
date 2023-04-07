@@ -13,6 +13,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 	const client = new ApolloClient({
 		uri: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/graphql',
 		cache: new InMemoryCache(),
+		credentials: 'include',
 	})
 
 	return (

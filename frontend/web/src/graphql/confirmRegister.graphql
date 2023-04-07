@@ -1,0 +1,3 @@
+mutation ConfirmRegister($options: VerifyInput!) {
+	confirmRegister(options: $options)
+}

@@ -6,8 +6,7 @@ import { Navbar } from './Navbar'
 const PageWrapperDiv = styled.div`
 	width: 100%;
 	min-height: 100vh;
-	padding: 0 30px;
-	margin: 20px 0;
+	padding: 20px 30px;
 
 	& ::selection {
 		color: #ffffff;
@@ -17,10 +16,12 @@ const PageWrapperDiv = styled.div`
 
 interface PageWrapperProps {
 	title: string
+	navbar?: boolean
 }
 
 export const PageWrapper: React.FC<PageWrapperProps> = ({
 	title,
+	navbar,
 	children,
 }) => {
 	return (
@@ -28,7 +29,7 @@ export const PageWrapper: React.FC<PageWrapperProps> = ({
 			<Head>
 				<title>{title}</title>
 			</Head>
-			<Navbar />
+			{navbar !== false && <Navbar />}
 			{children}
 		</PageWrapperDiv>
 	)

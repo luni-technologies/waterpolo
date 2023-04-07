@@ -1,0 +1,3 @@
+mutation ConfirmDeleteUser($options: VerifyInput!) {
+	confirmDeleteUser(options: $options)
+}
