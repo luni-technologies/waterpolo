@@ -44,6 +44,28 @@ const NavLink = styled.a`
 	& span {
 		font-weight: 400;
 	}
+
+	&:hover {
+		cursor: pointer;
+	}
+`
+
+const NavMenu = styled.div<{ pos: number }>`
+	position: absolute;
+	left: ${(props) => props.pos}px;
+	top: 45px;
+	transform: translateX(-50%);
+	background-color: #ffffff;
+	border: 2px solid #000000;
+	padding: 10px;
+
+	display: flex;
+	flex-direction: column;
+	align-items: end;
+
+	& > a:not(:last-child) {
+		margin-bottom: 5px;
+	}
 `
 
 interface NavbarProps {}
@@ -57,6 +79,9 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
 			GreetingsList[Math.floor(Math.random() * GreetingsList.length)].greeting
 		)
 	}, [setRandGreeting])
+
+	const [menuPosition, setMenuPosition] = useState<number>(0)
+	const [showMenu, setShowMenu] = useState<boolean>(false)
 
 	return (
 		<Nav>
@@ -75,9 +100,19 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
 						<NavLink>bajnokságok</NavLink>
 					</Link>
 				</NavContentGroup>
-				<NavContentGroup>
+				<NavContentGroup
+					ref={(el) => {
+						if (!el) return
+						let rect = el.getBoundingClientRect()
+						setMenuPosition(rect.x + rect.width / 2)
+					}}
+				>
 					{!loading && data?.me ? (
-						<NavLink>
+						<NavLink
+							onClick={() => {
+								setShowMenu(!showMenu)
+							}}
+						>
 							<span>{randGreeting}, </span>
 							{data.me.first_name}
 						</NavLink>
@@ -88,6 +123,19 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
 					)}
 				</NavContentGroup>
 			</NavContent>
+			{showMenu && (
+				<NavMenu pos={menuPosition}>
+					<Link href={'/account'} passHref>
+						<NavLink>fiók</NavLink>
+					</Link>
+					<Link href={'/favourites'} passHref>
+						<NavLink>kedvencek</NavLink>
+					</Link>
+					<Link href={'/logout'} passHref>
+						<NavLink>kijelentkezés</NavLink>
+					</Link>
+				</NavMenu>
+			)}
 		</Nav>
 	)
 }
