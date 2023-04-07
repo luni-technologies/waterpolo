@@ -44,7 +44,7 @@ const main = async () => {
 				SearchResolver,
 				UserResolver,
 			],
-			validate: true,
+			validate: false,
 		}),
 		context: ({ req, res }: Context) => ({ req, res }),
 	})

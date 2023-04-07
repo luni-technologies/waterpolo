@@ -9,7 +9,8 @@ import { Context } from '../types/Context'
 export class UserResolver {
 	@Mutation(() => Boolean)
 	async register(
-		@Arg('options', () => RegisterInput) options: RegisterInput
+		@Arg('options', () => RegisterInput, { validate: true })
+		options: RegisterInput
 	): Promise<boolean> {
 		const hashedPassword = await argonHash(options.password)
 
@@ -59,7 +60,7 @@ export class UserResolver {
 
 	@Mutation(() => Boolean)
 	async login(
-		@Arg('options', () => LoginInput) options: LoginInput,
+		@Arg('options', () => LoginInput, { validate: true }) options: LoginInput,
 		@Ctx() ctx: Context
 	): Promise<boolean> {
 		const user = await User.findOne({ where: { email: options.email } })
@@ -103,7 +104,7 @@ export class UserResolver {
 
 	@Mutation(() => Boolean)
 	async deleteUser(
-		@Arg('options', () => LoginInput) options: LoginInput
+		@Arg('options', () => LoginInput, { validate: true }) options: LoginInput
 	): Promise<boolean> {
 		const user = await User.findOne({ where: { email: options.email } })
 		if (!user) return false
