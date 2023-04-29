@@ -159,7 +159,39 @@ export class MatchResolver {
 			goalscorers_away: [],
 			playerScores: [],
 			referees: [],
+			coaches_home: [],
+			coaches_away: [],
 		}
+
+		$('table.meccs_tabla > tbody > tr:last-child')
+			.find('td[align="right"]')
+			.eq(0)
+			.html()!
+			.split('<br>')
+			.forEach((x) => {
+				if (x === '') return
+				let nameLower = x.trim().toLowerCase()
+				let nameCap = nameLower
+					.split(' ')
+					.map((x) => x.charAt(0).toUpperCase() + x.slice(1))
+					.join(' ')
+				data.coaches_home.push({ name: nameCap })
+			})
+
+		$('table.meccs_tabla > tbody > tr:last-child')
+			.find('td[align="left"]')
+			.eq(0)
+			.html()!
+			.split('<br>')
+			.forEach((x) => {
+				if (x === '') return
+				let nameLower = x.trim().toLowerCase()
+				let nameCap = nameLower
+					.split(' ')
+					.map((x) => x.charAt(0).toUpperCase() + x.slice(1))
+					.join(' ')
+				data.coaches_away.push({ name: nameCap })
+			})
 
 		try {
 			data.quarters = $('td.meccs_eredmeny_reszlet')

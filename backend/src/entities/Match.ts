@@ -125,6 +125,18 @@ export class Match extends MatchMin {
 
 	@Field(() => [Referee])
 	referees: Referee[]
+
+	@Field(() => [Coach])
+	coaches_home: Coach[]
+
+	@Field(() => [Coach])
+	coaches_away: Coach[]
+}
+
+@ObjectType()
+export class Coach {
+	@Field(() => String)
+	name: string
 }
 
 @ObjectType()
