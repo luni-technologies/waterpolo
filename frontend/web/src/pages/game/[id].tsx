@@ -452,7 +452,15 @@ const Game: NextPage = () => {
 																				y.player.name === x.name &&
 																				y.player.number === x.number
 																		)?.score || 0
-																	).toFixed(2)}
+																	).toFixed(2) === '0.00'
+																		? ''
+																		: (
+																				data.matchById.playerScores.find(
+																					(y) =>
+																						y.player.name === x.name &&
+																						y.player.number === x.number
+																				)?.score || 0
+																		  ).toFixed(2)}
 																</GameLineupTableDataNumber>
 															</GameLineupTableRow>
 														))}
@@ -487,7 +495,15 @@ const Game: NextPage = () => {
 																				y.player.name === x.name &&
 																				y.player.number === x.number
 																		)?.score || 0
-																	).toFixed(2)}
+																	).toFixed(2) === '0.00'
+																		? ''
+																		: (
+																				data.matchById.playerScores.find(
+																					(y) =>
+																						y.player.name === x.name &&
+																						y.player.number === x.number
+																				)?.score || 0
+																		  ).toFixed(2)}
 																</GameLineupTableDataNumber>
 															</GameLineupTableRow>
 														))}
