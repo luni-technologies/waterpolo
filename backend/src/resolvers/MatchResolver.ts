@@ -86,39 +86,35 @@ export class MatchResolver {
 					matches: [],
 				})
 			} else {
-				data
-					.find((x) => x.title === loopLeague)
-					?.matches.push({
-						id: $(el).find('td').eq(0).text().trim(),
-						date: parseDate($(el).find('td').eq(1).text().trim()),
-						team_home: $(el).find('td').eq(2).text().trim(),
-						team_away: $(el).find('td').eq(3).text().trim(),
-						score_home: parseInt(
-							$(el)
-								.find('td')
-								.eq(4)
-								.text()
-								.trim()
-								.split('(')[0]
-								.split('-')[0] || '0'
-						),
-						score_away: parseInt(
-							$(el)
-								.find('td')
-								.eq(4)
-								.text()
-								.trim()
-								.split('(')[0]
-								.split('-')[1] || '0'
-						),
-						location: $(el).find('td').eq(5).text().trim(),
-					})
+				let match = {
+					id: $(el).find('td').eq(0).text().trim(),
+					date: parseDate($(el).find('td').eq(1).text().trim()),
+					team_home: $(el).find('td').eq(2).text().trim(),
+					team_away: $(el).find('td').eq(3).text().trim(),
+					score_home: parseInt(
+						$(el).find('td').eq(4).text().trim().split('(')[0].split('-')[0] ||
+							'0'
+					),
+					score_away: parseInt(
+						$(el).find('td').eq(4).text().trim().split('(')[0].split('-')[1] ||
+							'0'
+					),
+					location: $(el).find('td').eq(5).text().trim(),
+				}
+				if (
+					match.team_home !== '' &&
+					match.team_away !== '' &&
+					match.date &&
+					match.date.getHours() !== 0
+				) {
+					data.find((x) => x.title === loopLeague)?.matches.push(match)
+				}
 			}
 		})
 
 		return {
 			date,
-			leagues: data,
+			leagues: data.filter((x) => x.matches.length > 0),
 		}
 	}
 
