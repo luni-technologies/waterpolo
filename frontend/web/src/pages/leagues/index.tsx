@@ -25,10 +25,12 @@ const LeaguesList = styled.div`
 	@media only screen and (max-width: 770px) {
 		margin-top: 60px;
 		align-items: start !important;
+		text-align: left !important;
 	}
 
 	&:last-child {
 		align-items: end;
+		text-align: right;
 	}
 `
 
