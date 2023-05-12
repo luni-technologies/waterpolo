@@ -68,7 +68,7 @@ const gkStatScoreTable: { type: string; value: number }[] = [
 export class MatchResolver {
 	@Query(() => MatchesOnDate)
 	async matchesOnDate(
-		@Arg('date', () => Date) date: Date
+		@Arg('date', () => Date, { validate: false }) date: Date
 	): Promise<MatchesOnDate> {
 		let parsedDate = moment.tz(date, 'Europe/Budapest').format('YYYY-MM-DD')
 		const resp = await axios.get(`https://waterpolo.hu/musor/${parsedDate}`)
