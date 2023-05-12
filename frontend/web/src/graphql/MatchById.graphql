@@ -52,5 +52,11 @@ query MatchById($id: String!) {
 			}
 			score
 		}
+		coaches_home {
+			name
+		}
+		coaches_away {
+			name
+		}
 	}
 }

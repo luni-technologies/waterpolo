@@ -207,7 +207,17 @@ const GameLineupTableTitle = styled.h4`
 	text-align: left;
 	width: 100%;
 	border-bottom: 2px solid #000000;
-	padding-left: 20px;
+	padding-left: 5%;
+`
+
+const GameLineupTableCoach = styled.h5`
+	margin: 0;
+	text-align: left;
+	width: 100%;
+	border-bottom: 2px solid #000000;
+	font-weight: 400;
+	font-size: 14px;
+	padding-left: 5%;
 `
 
 const GameLineupTable = styled.table`
@@ -224,6 +234,7 @@ const GameLineupTableRow = styled.tr<{ highlight?: boolean }>`
 
 const GameLineupTableDataName = styled.td`
 	padding-left: 5px;
+	font-size: 16px;
 `
 
 const GameLineupTableDataNumber = styled.td`
@@ -417,6 +428,13 @@ const Game: NextPage = () => {
 												<GameLineupTableTitle>
 													{data.matchById.team_home}
 												</GameLineupTableTitle>
+												{data.matchById.coaches_home.length > 0 && (
+													<GameLineupTableCoach>
+														{data.matchById.coaches_home
+															.map((x) => x.name)
+															.join(', ')}
+													</GameLineupTableCoach>
+												)}
 												<GameLineupTable>
 													<tbody>
 														{data.matchById.lineup_home.map((x, i) => (
@@ -445,6 +463,13 @@ const Game: NextPage = () => {
 												<GameLineupTableTitle>
 													{data.matchById.team_away}
 												</GameLineupTableTitle>
+												{data.matchById.coaches_away.length > 0 && (
+													<GameLineupTableCoach>
+														{data.matchById.coaches_away
+															.map((x) => x.name)
+															.join(', ')}
+													</GameLineupTableCoach>
+												)}
 												<GameLineupTable>
 													<tbody>
 														{data.matchById.lineup_away.map((x, i) => (
