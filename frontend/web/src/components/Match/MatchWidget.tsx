@@ -21,13 +21,17 @@ const MatchWidgetWrapper = styled.a<{ grid?: boolean }>`
 	}
 `
 
-const MatchWidgetTeam = styled.a<{ align: 'left' | 'right' }>`
+const MatchWidgetTeam = styled.a<{ align: 'left' | 'right'; long: boolean }>`
 	font-family: 'Roboto Condensed', sans-serif;
 	font-size: 14px;
 	color: #000000;
 	text-transform: uppercase;
 	width: 30%;
 	text-align: ${(props) => props.align};
+
+	@media only screen and (max-width: 770px) {
+		font-size: ${(props) => (props.long ? '10px' : '14px')};
+	}
 `
 
 const MatchWidgetCenterWrapper = styled.div`
@@ -65,7 +69,12 @@ export const MatchWidget: React.FC<MatchWidgetProps> = ({ match, grid }) => {
 	return (
 		<Link href={`/game/${match.id}`} passHref>
 			<MatchWidgetWrapper grid={grid}>
-				<MatchWidgetTeam align="left">{match.team_home}</MatchWidgetTeam>
+				<MatchWidgetTeam
+					align="left"
+					long={match.team_home.split(' ').some((x) => x.length > 12)}
+				>
+					{match.team_home}
+				</MatchWidgetTeam>
 				<MatchWidgetCenterWrapper>
 					<MatchWidgetMain>
 						{isUpcoming
@@ -84,7 +93,12 @@ export const MatchWidget: React.FC<MatchWidgetProps> = ({ match, grid }) => {
 							: 'TBD'}
 					</MatchWidgetSub>
 				</MatchWidgetCenterWrapper>
-				<MatchWidgetTeam align="right">{match.team_away}</MatchWidgetTeam>
+				<MatchWidgetTeam
+					align="right"
+					long={match.team_away.split(' ').some((x) => x.length > 12)}
+				>
+					{match.team_away}
+				</MatchWidgetTeam>
 			</MatchWidgetWrapper>
 		</Link>
 	)
