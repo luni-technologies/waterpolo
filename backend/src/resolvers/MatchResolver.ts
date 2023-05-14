@@ -209,13 +209,12 @@ export class MatchResolver {
 			}
 		})
 
-		let goalkeepers: string[] = []
-		$('table.meccs_jatekos td.player').map((_, x) =>
-			goalkeepers.push($(x).text())
-		)
-
-		let gkPlayerScores: { name: string; scores: scoreData[] }[] = []
-		$('table.meccs_jatekos').map((_, x) => {
+		let gkPlayerScores: {
+			name: string
+			scores: scoreData[]
+			team: 'home' | 'away'
+		}[] = []
+		$('table.meccs_jatekos').map((index, x) => {
 			$(x)
 				.html()
 				?.split('\n')
@@ -225,6 +224,7 @@ export class MatchResolver {
 				.forEach((playerTable) => {
 					let t$ = $.load(playerTable, {}, false)
 					let name = t$('tr').eq(0).find('td').eq(0).text()
+					if (name === '') return
 					let playerScores: scoreData[] = []
 					t$('tr')
 						.eq(1)
@@ -258,7 +258,11 @@ export class MatchResolver {
 							playerScores.push(statPoint1)
 							playerScores.push(statPoint2)
 						})
-					gkPlayerScores.push({ name: name, scores: playerScores })
+					gkPlayerScores.push({
+						name: name,
+						scores: playerScores,
+						team: index === 0 ? 'home' : 'away',
+					})
 				})
 		})
 
@@ -267,13 +271,18 @@ export class MatchResolver {
 			.find('td[valign]')
 			.eq(0)
 			.find('tr.even, tr.odd')
-			.map((_, el) =>
+			.map((_, el) => {
 				data.lineup_home.push({
 					name: $(el).find('td').eq(1).text().trim(),
 					number: parseInt($(el).find('td').eq(0).text().trim()),
-					isGK: goalkeepers.includes($(el).find('td').eq(1).text().trim()),
+					isGK:
+						typeof gkPlayerScores.find(
+							(x) =>
+								x.team === 'home' &&
+								x.name === $(el).find('td').eq(1).text().trim()
+						) !== 'undefined',
 				})
-			)
+			})
 
 		$('div.n_tab')
 			.eq(1)
@@ -284,7 +293,12 @@ export class MatchResolver {
 				data.lineup_away.push({
 					name: $(el).find('td').eq(1).text().trim(),
 					number: parseInt($(el).find('td').eq(0).text().trim()),
-					isGK: goalkeepers.includes($(el).find('td').eq(1).text().trim()),
+					isGK:
+						typeof gkPlayerScores.find(
+							(x) =>
+								x.team === 'away' &&
+								x.name === $(el).find('td').eq(1).text().trim()
+						) !== 'undefined',
 				})
 			)
 
@@ -338,14 +352,16 @@ export class MatchResolver {
 											.split(' (')[1]
 											.replace(')', '')
 								  ),
-						isGK: goalkeepers.includes(
-							$(el).find('td').eq(0).text().trim() === '' &&
-								$(el).find('td').eq(5).text().trim() === ''
-								? ''
-								: $(el).find('td').eq(0).text().trim() === ''
-								? $(el).find('td').eq(5).text().trim().split(' (')[0]
-								: $(el).find('td').eq(0).text().trim().split(' (')[0]
-						),
+						isGK:
+							typeof gkPlayerScores.find((x) => {
+								x.name ===
+									($(el).find('td').eq(0).text().trim() === '' &&
+									$(el).find('td').eq(5).text().trim() === ''
+										? ''
+										: $(el).find('td').eq(0).text().trim() === ''
+										? $(el).find('td').eq(5).text().trim().split(' (')[0]
+										: $(el).find('td').eq(0).text().trim().split(' (')[0])
+							}) !== 'undefined',
 					},
 					eventType: $(el).find('td').eq(4).text().trim(),
 					score:
