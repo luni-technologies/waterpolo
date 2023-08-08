@@ -71,7 +71,9 @@ export class MatchResolver {
 		@Arg('date', () => Date, { validate: false }) date: Date
 	): Promise<MatchesOnDate> {
 		let parsedDate = moment.tz(date, 'Europe/Budapest').format('YYYY-MM-DD')
-		const resp = await axios.get(`https://waterpolo.hu/musor/${parsedDate}`)
+		const resp = await axios.get(
+			`${process.env.PARSE_ROOT_DOMAIN}musor/${parsedDate}`
+		)
 		const $ = load(resp.data)
 
 		const data: LeagueMid[] = []
@@ -120,7 +122,7 @@ export class MatchResolver {
 
 	@Query(() => Match)
 	async matchById(@Arg('id', () => String) id: string): Promise<Match> {
-		const resp = await axios.get(`https://waterpolo.hu/meccs/${id}`)
+		const resp = await axios.get(`${process.env.PARSE_ROOT_DOMAIN}meccs/${id}`)
 		const $ = load(resp.data)
 
 		const data: Match = {

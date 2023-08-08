@@ -10,7 +10,7 @@ import { parseDate } from '../utils/parseDate'
 export class LeagueResolver {
 	@Query(() => LeagueResponse)
 	async all(): Promise<LeagueResponse> {
-		const resp = await axios.get('https://waterpolo.hu/bajnoksagok/')
+		const resp = await axios.get(`${process.env.PARSE_ROOT_DOMAIN}bajnoksagok/`)
 		const $ = load(resp.data)
 
 		let data: LeagueResponse = {
@@ -46,7 +46,7 @@ export class LeagueResolver {
 	@Query(() => League)
 	async findById(@Arg('id', () => String) id: string): Promise<League> {
 		const resp = await axios.get(
-			`https://waterpolo.hu/bajnoksagok/?szures[bajnoksag_id]=${id}`
+			`${process.env.PARSE_ROOT_DOMAIN}bajnoksagok/?szures[bajnoksag_id]=${id}`
 		)
 		const $ = load(resp.data)
 
